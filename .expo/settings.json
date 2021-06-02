@@ -1,0 +1,10 @@
+{
+  "hostType": "lan",
+  "lanType": "ip",
+  "dev": true,
+  "minify": false,
+  "urlRandomness": "zf-xgj",
+  "https": false,
+  "scheme": null,
+  "devClient": false
+}
