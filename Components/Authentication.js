@@ -8,7 +8,9 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  Image,
 } from "react-native";
+import logo from "../assets/photo-white.png";
 
 export const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -16,39 +18,41 @@ export const LoginScreen = ({ navigation }) => {
   const [token, setToken] = useState("");
   const [error, setError] = useState("");
   const login = async () => {
-    try {
-      const response = await fetch("http://localhost:5000/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
+    navigation.navigate("Home");
+    // try {
+    //   const response = await fetch(
+    //     "http://e-photocopier-server.herokuapp.com/api/login",
+    //     {
+    //       method: "POST",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //       body: JSON.stringify({ email, password }),
+    //     }
+    //   );
 
-      const responseJson = await response.json();
-      if (responseJson?.token) {
-        setToken(responseJson?.token);
-        navigation.navigate("Home");
-        console.log("You are logged in");
-      } else {
-        setError(responseJson?.message);
-        console.log(responseJson?.message);
-      }
-    } catch (err) {
-      console.log(err);
-    }
+    //   const responseJson = await response.json();
+    //   if (responseJson?.token) {
+    //     setToken(responseJson?.token);
+    //     navigation.navigate("Home");
+    //     console.log("You are logged in");
+    //   } else {
+    //     setError(responseJson?.message);
+    //     console.log(responseJson?.message);
+    //   }
+    // } catch (err) {
+    //   console.log(err);
+    // }
   };
   return (
     <View style={styles.container}>
-      <Text style={styles.headers}>E-Photocopier</Text>
+      <Image source={logo} style={{ width: 305, height: 159 }} />
       <TextInput
         style={styles.input}
-        placeholder="Username"
+        placeholder="Email"
         autoCapitalize="none"
         placeholderTextColor="white"
-        onChange={(e) => {
-          setEmail(e.target.value);
-        }}
+        onChangeText={(e) => setEmail(e)}
       />
       <TextInput
         style={styles.input}
@@ -56,25 +60,14 @@ export const LoginScreen = ({ navigation }) => {
         secureTextEntry={true}
         autoCapitalize="none"
         placeholderTextColor="white"
-        onChange={(e) => {
-          setPassword(e.target.value);
+        onChangeText={(e) => {
+          setPassword(e);
         }}
       />
       <Text>{error}</Text>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate("Home")}
-      >
+      <TouchableOpacity style={styles.button} onPress={login}>
         <Text style={styles.btn}> Sign In </Text>
       </TouchableOpacity>
-      {/* <Text style={styles.signinbtn}>
-        {" "}
-        <Button
-          style={styles.signbtn}
-          title="SIGN IN"
-          onPress={() => navigation.navigate("Home")}
-        />{" "}
-      </Text> */}
       <View style={styles.signupbtn}>
         <Text style={styles.acc}>Don't Have an Account?</Text>
         <TouchableOpacity
@@ -96,20 +89,30 @@ export const SignUpScreen = ({ navigation }) => {
   const [phonenumber, setphonenumber] = useState("");
   const signup = async (e) => {
     try {
-      const response = await fetch("http://localhost:5000/api/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ name, email, username, password, phonenumber }),
-      });
-      window.location.reload();
+      const response = await fetch(
+        "https://e-photocopier-server.herokuapp.com/api/signup",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name,
+            email,
+            username,
+            password,
+            phonenumber,
+          }),
+        }
+      );
+      navigation.navigate("LogIn");
     } catch (err) {
       console.error(err.message);
     }
   };
   return (
     <View style={styles.container}>
+      <Image source={logo} style={{ width: 205, height: 109 }} />
       <Text style={styles.headers}>Create New Account</Text>
       <TextInput
         style={styles.input}
@@ -153,10 +156,7 @@ export const SignUpScreen = ({ navigation }) => {
           setphonenumber(e.target.value);
         }}
       />
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate("Signup")}
-      >
+      <TouchableOpacity style={styles.button} onPress={() => signup}>
         <Text style={styles.btn}> Sign Up </Text>
       </TouchableOpacity>
       <TouchableOpacity
@@ -221,5 +221,6 @@ const styles = StyleSheet.create({
   btn: {
     color: "#2291FF",
     fontWeight: "bold",
+    marginHorizontal: "10%",
   },
 });

@@ -4,7 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { LoginScreen, SignUpScreen } from "./Components/Authentication";
 import Dashboard from "./Components/Dashboard";
-//import "react-native-gesture-handler";
+import WelcomeScreen from "./screens/Welcome";
 
 const Stack = createStackNavigator();
 
@@ -12,6 +12,19 @@ const App = (props) => {
   return (
     <NavigationContainer styles={styles.container}>
       <Stack.Navigator tintColor={"white"}>
+        <Stack.Screen
+          name="Welcome"
+          component={WelcomeScreen}
+          options={{
+            headerStyle: {
+              backgroundColor: "#2291FF",
+            },
+            headerTitleStyle: {
+              color: "white",
+            },
+            headerTintColor: "#ffffff",
+          }}
+        />
         <Stack.Screen
           name="LogIn"
           component={LoginScreen}
@@ -22,6 +35,7 @@ const App = (props) => {
             headerTitleStyle: {
               color: "white",
             },
+            headerTintColor: "#ffffff",
           }}
         />
         <Stack.Screen
