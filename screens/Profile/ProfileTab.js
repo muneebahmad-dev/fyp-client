@@ -27,7 +27,7 @@ const ProfileTab = (props) => {
           <View style={Styles.ImageContainer}>
             <TouchableHighlight>
               <Image
-                source={require("../assets/muneeb.jpg")}
+                source={require("../../assets/muneeb.jpg")}
                 style={Styles.Image}
               />
             </TouchableHighlight>

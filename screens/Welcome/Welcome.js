@@ -8,7 +8,7 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-import logo from "../assets/photo-white.png";
+import logo from "../../assets/photo-white.png";
 
 const WelcomeScreen = ({ navigation }) => {
   return (

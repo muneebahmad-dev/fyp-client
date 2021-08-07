@@ -1,5 +1,7 @@
 // Login.js
 import * as Font from "expo-font";
+import { useDispatch, useSelector } from "react-redux";
+import { auth_login } from "./AuthSlice";
 import React, { useState } from "react";
 import {
   View,
@@ -10,39 +12,50 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
-import logo from "../assets/photo-white.png";
+import logo from "../../assets/photo-white.png";
+import jwtDecode from "jwt-decode";
 
 export const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [token, setToken] = useState("");
   const [error, setError] = useState("");
-  const login = async () => {
-    navigation.navigate("Home");
-    // try {
-    //   const response = await fetch(
-    //     "http://e-photocopier-server.herokuapp.com/api/login",
-    //     {
-    //       method: "POST",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //       body: JSON.stringify({ email, password }),
-    //     }
-    //   );
 
-    //   const responseJson = await response.json();
-    //   if (responseJson?.token) {
-    //     setToken(responseJson?.token);
-    //     navigation.navigate("Home");
-    //     console.log("You are logged in");
-    //   } else {
-    //     setError(responseJson?.message);
-    //     console.log(responseJson?.message);
-    //   }
-    // } catch (err) {
-    //   console.log(err);
-    // }
+  const dispatch = useDispatch();
+
+  const login = async () => {
+    // navigation.navigate("Home");
+    try {
+      const response = await fetch(
+        "http://e-photocopier-server.herokuapp.com/api/user/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
+        }
+      );
+      const responseJson = await response.json();
+
+      if (responseJson?.token) {
+        const decodedToken = jwtDecode(responseJson.token);
+        if (decodedToken.role == "user") {
+          navigation.navigate("Home");
+        }
+        if (decodedToken.role == "admin") {
+          navigation.navigate("Admin Home");
+        }
+        dispatch(auth_login(decodedToken));
+        console.log(decodedToken);
+      }
+      if (responseJson?.message) {
+        setError(responseJson.message);
+        console.log(responseJson);
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
   return (
     <View style={styles.container}>
@@ -90,7 +103,7 @@ export const SignUpScreen = ({ navigation }) => {
   const signup = async (e) => {
     try {
       const response = await fetch(
-        "https://e-photocopier-server.herokuapp.com/api/signup",
+        "https://e-photocopier-server.herokuapp.com/api/user/signup",
         {
           method: "POST",
           headers: {

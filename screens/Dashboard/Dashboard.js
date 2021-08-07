@@ -1,12 +1,11 @@
 import Input from "antd-mobile/lib/input-item/Input";
 import React from "react";
-import { RadioButton } from "react-native-paper";
 import { StyleSheet, Text, View } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import NotificationsTab from "../screens/NotificationsTab";
-import OrdersTab from "../screens/OrdersTab";
-import ProfileTab from "../screens/ProfileTab";
-import HomeTab from "../screens/HomeTab";
+import NotificationsTab from "../Orders/NotificationsTab";
+import OrdersTab from "../Orders/OrdersTab";
+import ProfileTab from "../Profile/ProfileTab";
+import HomeTab from "../Home/HomeTab";
 
 const Tab = createMaterialTopTabNavigator();
 
