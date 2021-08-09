@@ -5,9 +5,9 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 import OrdersTab from "../Orders/OrdersTab";
 import ProfileTab from "../Profile/ProfileTab";
 import HomeTab from "../Home/HomeTab";
-import ChatTab from "../Orders/ChatTab";
+import ChatTab from "../Chat/ChatTab";
 import { useDispatch } from "react-redux";
-import { auth_logout } from "../Auth/AuthSlice";
+import { auth_logout } from "../../Auth/AuthSlice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 const Tab = createMaterialTopTabNavigator();
 

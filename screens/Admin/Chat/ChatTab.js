@@ -1,6 +1,5 @@
 import * as React from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
-import { List } from "react-native-paper";
 const ChatTab = (props) => {
   return (
     <View>

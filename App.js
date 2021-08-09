@@ -4,7 +4,7 @@ import store from "./redux/store";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { LoginScreen, SignUpScreen } from "./screens/Auth/Authentication";
-import Dashboard from "./screens/Dashboard/Dashboard";
+import Dashboard from "./screens/User/Dashboard/Dashboard";
 import WelcomeScreen from "./screens/Welcome/Welcome";
 import { Provider } from "react-redux";
 import AdminDashboard from "./screens/Admin/AdminDashboard";

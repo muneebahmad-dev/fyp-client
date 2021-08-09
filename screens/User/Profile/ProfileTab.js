@@ -5,7 +5,7 @@ import { Image } from "react-native";
 import { SafeAreaView, View } from "react-native";
 import { TouchableOpacity } from "react-native";
 import { StyleSheet, Text } from "react-native";
-import { auth_logout } from "../Auth/AuthSlice";
+import { auth_logout } from "../../Auth/AuthSlice";
 import { useDispatch, useSelector } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 const ProfileTab = ({ navigation }) => {
@@ -92,7 +92,7 @@ const ProfileTab = ({ navigation }) => {
           <View style={Styles.ImageContainer}>
             <TouchableHighlight>
               <Image
-                source={require("../../assets/muneeb.jpg")}
+                source={require("../../../assets/muneeb.jpg")}
                 style={Styles.Image}
               />
             </TouchableHighlight>
