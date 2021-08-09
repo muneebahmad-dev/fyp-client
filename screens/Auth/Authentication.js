@@ -11,6 +11,7 @@ import {
   Text,
   TouchableOpacity,
   Image,
+  ActivityIndicator,
 } from "react-native";
 import logo from "../../assets/photo-white.png";
 import jwtDecode from "jwt-decode";
@@ -18,7 +19,7 @@ import jwtDecode from "jwt-decode";
 export const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [token, setToken] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
   const dispatch = useDispatch();
@@ -26,6 +27,7 @@ export const LoginScreen = ({ navigation }) => {
   const login = async () => {
     // navigation.navigate("Home");
     // navigation.navigate("Admin Home");
+    setIsLoading(true);
     try {
       const response = await fetch(
         "http://e-photocopier-server.herokuapp.com/api/user/login",
@@ -53,6 +55,7 @@ export const LoginScreen = ({ navigation }) => {
         setError(responseJson.message);
         console.log(responseJson);
       }
+      setIsLoading(false);
     } catch (err) {
       console.log(err);
     }
@@ -81,6 +84,8 @@ export const LoginScreen = ({ navigation }) => {
       <TouchableOpacity style={styles.button} onPress={login}>
         <Text style={styles.btn}> Sign In </Text>
       </TouchableOpacity>
+
+      <ActivityIndicator animating={isLoading} color="white" size={"large"} />
       <View style={styles.signupbtn}>
         <Text style={styles.acc}>Don't Have an Account?</Text>
         <TouchableOpacity
@@ -100,7 +105,9 @@ export const SignUpScreen = ({ navigation }) => {
   const [password, setpassword] = useState("");
   const [email, setemail] = useState("");
   const [phonenumber, setphonenumber] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const signup = async (e) => {
+    setIsLoading(true);
     try {
       const response = await fetch(
         "https://e-photocopier-server.herokuapp.com/api/user/signup",
@@ -122,6 +129,7 @@ export const SignUpScreen = ({ navigation }) => {
     } catch (err) {
       console.error(err.message);
     }
+    setIsLoading(false);
   };
   return (
     <View style={styles.container}>
@@ -172,6 +180,7 @@ export const SignUpScreen = ({ navigation }) => {
       <TouchableOpacity style={styles.button} onPress={() => signup}>
         <Text style={styles.btn}> Sign Up </Text>
       </TouchableOpacity>
+      <ActivityIndicator size={"large"} animating={isLoading} color="white" />
       <TouchableOpacity
         style={styles.button}
         onPress={() => navigation.navigate("LogIn")}

@@ -6,7 +6,7 @@ import AsyncStorage, {
 export const AuthSlice = createSlice({
   name: "auth",
   initialState: {
-    authState: null,
+    authState: "",
   },
   reducers: {
     auth_login: async (state, { payload }) => {
@@ -17,9 +17,10 @@ export const AuthSlice = createSlice({
       } catch (err) {
         console.log(err);
       }
+      console.log(state.authState, "authstate");
     },
     auth_logout: async (state, { payload }) => {
-      state.authState = null;
+      state.authState = "";
       try {
         await AsyncStorage.removeItem("e-photocopier_auth_data");
         const data = await AsyncStorage.removeItem("e-phtocopier_auth_data");

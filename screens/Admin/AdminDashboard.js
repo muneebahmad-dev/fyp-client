@@ -1,20 +1,26 @@
 import React, { useEffect } from "react";
 import { BackHandler, Alert } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import OrdersTab from "../Orders/OrdersTab";
+import OrdersTab from "./Orders/OrdersTab";
 import ProfileTab from "../Profile/ProfileTab";
 import HomeTab from "../Home/HomeTab";
 import ChatTab from "../Orders/ChatTab";
 import { useDispatch } from "react-redux";
 import { auth_logout } from "../Auth/AuthSlice";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Tab = createMaterialTopTabNavigator();
 
 const AdminDashboard = ({ navigation }) => {
   const dispatch = useDispatch();
-  const logoutHandler = () => {
-    dispatch(auth_logout);
-    navigation.navigate("LogIn");
+  const logoutHandler = async () => {
+    // dispatch(auth_logout);
+    try {
+      await AsyncStorage.removeItem("e-photocopier_auth_data");
+    } catch (err) {
+      console.log(err);
+    }
+    navigation.navigate("Welcome");
   };
   useEffect(() => {
     const backAction = () => {

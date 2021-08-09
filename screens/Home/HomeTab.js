@@ -1,30 +1,72 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import * as DocumentPicker from "expo-document-picker";
 import { AntDesign } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
-import { Button, StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import {
+  Button,
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { RadioButton, TextInput } from "react-native-paper";
 const HomeTab = (props) => {
   const [documentType, setDocumentType] = useState("blackWhite");
   const [urgent, setUrgent] = useState("urgentNo");
   const [file, setFile] = useState("");
+  const [id, setId] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const formData = new FormData();
+
+  useEffect(() => {
+    storage();
+  }, []);
 
   const pickDocument = async () => {
     let result = await DocumentPicker.getDocumentAsync({});
     setFile(result);
-    console.log(result);
   };
 
-  const submitHandler = () => {
-    console.log(
-      "urgent: ",
-      urgent,
-      " document type: ",
-      documentType,
-      "filename",
-      file
-    );
+  const storage = async () => {
+    const userState = await AsyncStorage.getItem("e-photocopier_auth_data");
+    const obj = JSON.parse(userState);
+    setId(obj._id);
+  };
+
+  const submitHandler = async () => {
+    setIsLoading(true);
+    formData.append("file", {
+      uri: file.uri,
+      type: "image/jpg",
+      name: file.name,
+    });
+    formData.append("user", id);
+    formData.append("urgent", urgent);
+    formData.append("documentType", documentType);
+    try {
+      const response = await fetch(
+        "http://e-photocopier-server.herokuapp.com/api/user/form/fileupload",
+        {
+          method: "POST",
+          body: formData,
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      const responseJson = await response.json();
+      console.log(responseJson);
+      setFile(" ");
+      setDocumentType("blackWhite");
+      setUrgent("urgentNo");
+    } catch (err) {
+      console.log(err);
+    }
+    setIsLoading(false);
   };
   return (
     <View style={styles.container}>
@@ -99,6 +141,7 @@ const HomeTab = (props) => {
       <TouchableOpacity style={styles.button} onPress={submitHandler}>
         <Text style={styles.btn}>Submit</Text>
       </TouchableOpacity>
+      <ActivityIndicator color="#2291FF" size={"large"} animating={isLoading} />
     </View>
   );
 };

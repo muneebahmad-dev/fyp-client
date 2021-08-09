@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import { Alert, TouchableHighlight } from "react-native";
 import { Button } from "react-native";
 import { Image } from "react-native";
@@ -6,9 +6,28 @@ import { SafeAreaView, View } from "react-native";
 import { TouchableOpacity } from "react-native";
 import { StyleSheet, Text } from "react-native";
 import { auth_logout } from "../Auth/AuthSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const ProfileTab = ({ navigation }) => {
+  const [id, setId] = useState("");
+  const [userData, setUserData] = useState("");
+
   const dispatch = useDispatch();
+
+  const storage = async () => {
+    const userState = await AsyncStorage.getItem("e-photocopier_auth_data");
+    const obj = JSON.parse(userState);
+    console.log(obj, "async");
+    setId(obj._id);
+  };
+
+  useEffect(() => {
+    storage();
+  }, []);
+
+  useEffect(() => {
+    getUser();
+  }, [id, userData]);
   const logoutHandler = () => {
     Alert.alert("Hold On", "Are you sure you want to logout?", [
       {
@@ -18,13 +37,40 @@ const ProfileTab = ({ navigation }) => {
       },
       {
         text: "YES",
-        onPress: () => navigation.navigate("LogIn"),
+        onPress: async () => {
+          navigation.navigate("Welcome");
+          try {
+            await AsyncStorage.removeItem("e-photocopier_auth_data");
+          } catch (err) {
+            console.log(err);
+          }
+        },
       },
     ]);
 
     // dispatch(auth_logout());
     return true;
   };
+
+  const getUser = async () => {
+    try {
+      const response = await fetch(
+        `http://e-photocopier-server.herokuapp.com/api/user/getUserById/${id}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const responseJson = await response.json();
+      setUserData(responseJson.message);
+      // console.log(responseJson, "hello");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  // console.log(userData, "ss");
   return (
     <SafeAreaView style={Styles.container}>
       <View style={Styles.headerContainer}>
@@ -64,7 +110,7 @@ const ProfileTab = ({ navigation }) => {
                 marginTop: 60,
               }}
             >
-              <Text style={{ fontWeight: "bold" }}>Name:</Text> Muneeb Ahmad
+              <Text style={{ fontWeight: "bold" }}>Name:</Text> {userData.name}
             </Text>
             <Text
               style={{
@@ -75,7 +121,7 @@ const ProfileTab = ({ navigation }) => {
               }}
             >
               <Text style={{ fontWeight: "bold" }}>Email:</Text>{" "}
-              muneebahmad21423@gmail.com
+              {userData.email}
             </Text>
             <Text
               style={{
@@ -86,7 +132,7 @@ const ProfileTab = ({ navigation }) => {
               }}
             >
               <Text style={{ fontWeight: "bold" }}>Phone Number:</Text>{" "}
-              03004182695
+              {userData.phonenumber}
             </Text>
             <Text
               style={{
@@ -96,7 +142,8 @@ const ProfileTab = ({ navigation }) => {
                 marginTop: 20,
               }}
             >
-              <Text style={{ fontWeight: "bold" }}>Orders:</Text> 3
+              <Text style={{ fontWeight: "bold" }}>Orders:</Text>{" "}
+              {userData?.order?.length}
             </Text>
             <Text
               style={{
@@ -117,7 +164,7 @@ const ProfileTab = ({ navigation }) => {
               }}
             >
               <Text style={{ fontWeight: "bold" }}>Username:</Text>{" "}
-              muneebahmad22
+              {userData.username}
             </Text>
           </View>
         </View>

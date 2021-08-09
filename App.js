@@ -7,7 +7,7 @@ import { LoginScreen, SignUpScreen } from "./screens/Auth/Authentication";
 import Dashboard from "./screens/Dashboard/Dashboard";
 import WelcomeScreen from "./screens/Welcome/Welcome";
 import { Provider } from "react-redux";
-import AdminDashboard from "./screens/AdminDashboard/AdminDashboard";
+import AdminDashboard from "./screens/Admin/AdminDashboard";
 
 // import firebase from "@react-native-firebase/app";
 // import "@react-native-firebase/firestore";

@@ -21,7 +21,7 @@ const OrdersTab = (props) => {
   const getOrders = async () => {
     try {
       const response = await fetch(
-        `http://e-photocopier-server.herokuapp.com/api/user/form/user/${id}`,
+        `http://e-photocopier-server.herokuapp.com/api/user/form/`,
         {
           method: "GET",
           headers: {
