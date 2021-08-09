@@ -1,5 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import AsyncStorage, {
+  useAsyncStorage,
+} from "@react-native-async-storage/async-storage";
 
 export const AuthSlice = createSlice({
   name: "auth",
@@ -7,14 +9,25 @@ export const AuthSlice = createSlice({
     authState: null,
   },
   reducers: {
-    auth_login: (state, { payload }) => {
+    auth_login: async (state, { payload }) => {
       state.authState = payload;
-      AsyncStorage.setItem("e-photocopier_auth", payload);
-      console.log(payload, "payload");
-      console.log("async storage", AsyncStorage.getItem("e-photocopier_auth"));
+      const jsonPayload = JSON.stringify(payload);
+      try {
+        await AsyncStorage.setItem("e-photocopier_auth_data", jsonPayload);
+      } catch (err) {
+        console.log(err);
+      }
     },
-    auth_logout: (state, { payload }) => {
+    auth_logout: async (state, { payload }) => {
       state.authState = null;
+      try {
+        await AsyncStorage.removeItem("e-photocopier_auth_data");
+        const data = await AsyncStorage.removeItem("e-phtocopier_auth_data");
+        console.log(data, "after removing");
+      } catch (err) {
+        console.log(err);
+      }
+      console.log(state.authState);
     },
   },
 });

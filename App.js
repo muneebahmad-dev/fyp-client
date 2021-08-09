@@ -7,10 +7,10 @@ import { LoginScreen, SignUpScreen } from "./screens/Auth/Authentication";
 import Dashboard from "./screens/Dashboard/Dashboard";
 import WelcomeScreen from "./screens/Welcome/Welcome";
 import { Provider } from "react-redux";
-import { useSelector } from "react-redux";
 import AdminDashboard from "./screens/AdminDashboard/AdminDashboard";
 
-// import firebase from "firebase/app";
+// import firebase from "@react-native-firebase/app";
+// import "@react-native-firebase/firestore";
 
 // const firebaseConfig = {
 //   apiKey: "AIzaSyCzFC6z3PUnpdbFhMooSJlsKk2fZHlh-CQ",
@@ -81,6 +81,7 @@ const App = (props) => {
               headerTitleStyle: {
                 color: "white",
               },
+              headerLeft: () => null,
               headerTintColor: "#ffffff",
             }}
           />
@@ -95,6 +96,7 @@ const App = (props) => {
               headerTitleStyle: {
                 color: "white",
               },
+
               headerTintColor: "#ffffff",
             }}
           />

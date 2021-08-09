@@ -1,11 +1,30 @@
 import * as React from "react";
-import { TouchableHighlight } from "react-native";
+import { Alert, TouchableHighlight } from "react-native";
 import { Button } from "react-native";
 import { Image } from "react-native";
 import { SafeAreaView, View } from "react-native";
 import { TouchableOpacity } from "react-native";
 import { StyleSheet, Text } from "react-native";
-const ProfileTab = (props) => {
+import { auth_logout } from "../Auth/AuthSlice";
+import { useDispatch } from "react-redux";
+const ProfileTab = ({ navigation }) => {
+  const dispatch = useDispatch();
+  const logoutHandler = () => {
+    Alert.alert("Hold On", "Are you sure you want to logout?", [
+      {
+        text: "Cancel",
+        onPress: () => null,
+        style: "cancel",
+      },
+      {
+        text: "YES",
+        onPress: () => navigation.navigate("LogIn"),
+      },
+    ]);
+
+    // dispatch(auth_logout());
+    return true;
+  };
   return (
     <SafeAreaView style={Styles.container}>
       <View style={Styles.headerContainer}>
@@ -102,17 +121,13 @@ const ProfileTab = (props) => {
             </Text>
           </View>
         </View>
-        <View
-          style={{
-            width: 180,
-            marginLeft: 130,
-            marginBottom: "13%",
-            borderRadius: 10,
-          }}
-        >
-          <Text>
-            <Button title="Update Profile" />
-          </Text>
+        <View style={Styles.logoutBtn}>
+          <TouchableOpacity
+            style={Styles.button}
+            onPress={() => logoutHandler()}
+          >
+            <Text style={Styles.btn}> Logout </Text>
+          </TouchableOpacity>
         </View>
       </View>
     </SafeAreaView>
@@ -124,6 +139,11 @@ const Styles = StyleSheet.create({
     justifyContent: "center",
     flexDirection: "column",
     marginTop: -69,
+  },
+  logoutBtn: {
+    alignItems: "center",
+    justifyContent: "center",
+    flex: 1,
   },
   headerContainer: {
     paddingTop: 69,
@@ -142,6 +162,25 @@ const Styles = StyleSheet.create({
     justifyContent: "space-evenly",
     alignItems: "center",
     flexDirection: "row",
+  },
+  button: {
+    alignItems: "center",
+    backgroundColor: "#2291FF",
+    marginTop: "7%",
+    padding: 9,
+    paddingLeft: 20,
+    paddingRight: 20,
+    borderRadius: 5,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 5,
+  },
+  btn: {
+    color: "white",
+    fontWeight: "bold",
+    marginHorizontal: "10%",
   },
   headerImageContainer: {
     flex: 0.3,

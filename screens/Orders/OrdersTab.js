@@ -19,7 +19,7 @@ const OrdersTab = (props) => {
           >
             {/* <Octicons name="three-bars" size={28} color="white" /> */}
           </TouchableOpacity>
-          <Text style={Styles.headerText}>User Profile</Text>
+          <Text style={Styles.headerText}>Orders</Text>
           <View style={Styles.headerIconContainer}>
             <TouchableOpacity style={Styles.headerBtn}>
               {/* <AntDesign name="setting" size={28} color="white" /> */}

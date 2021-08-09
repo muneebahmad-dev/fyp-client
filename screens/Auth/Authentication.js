@@ -25,6 +25,7 @@ export const LoginScreen = ({ navigation }) => {
 
   const login = async () => {
     // navigation.navigate("Home");
+    // navigation.navigate("Admin Home");
     try {
       const response = await fetch(
         "http://e-photocopier-server.herokuapp.com/api/user/login",
@@ -37,7 +38,6 @@ export const LoginScreen = ({ navigation }) => {
         }
       );
       const responseJson = await response.json();
-
       if (responseJson?.token) {
         const decodedToken = jwtDecode(responseJson.token);
         if (decodedToken.role == "user") {
