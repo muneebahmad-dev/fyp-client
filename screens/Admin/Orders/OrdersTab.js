@@ -8,7 +8,7 @@ import {
   FlatList,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-const OrdersTab = (props) => {
+const OrdersTab = ({ navigation }) => {
   const [orders, setOrders] = useState("");
   const [id, setId] = useState("");
 
@@ -34,6 +34,10 @@ const OrdersTab = (props) => {
     } catch (err) {
       console.log(err);
     }
+  };
+
+  const orderDetailHandler = (item) => {
+    navigation.navigate("Order Detail", { item: item });
   };
 
   useEffect(() => {
@@ -64,7 +68,9 @@ const OrdersTab = (props) => {
           keyExtractor={(item) => item._id}
           renderItem={({ item, index }) => (
             <View>
-              <Text>{item.filePath}</Text>
+              <TouchableOpacity onPress={() => orderDetailHandler(item)}>
+                <Text>{item.filePath}</Text>
+              </TouchableOpacity>
             </View>
           )}
         />

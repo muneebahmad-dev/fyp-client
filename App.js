@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, Text } from "react-native";
 import store from "./redux/store";
 import { NavigationContainer } from "@react-navigation/native";
@@ -8,6 +8,9 @@ import Dashboard from "./screens/User/Dashboard/Dashboard";
 import WelcomeScreen from "./screens/Welcome/Welcome";
 import { Provider } from "react-redux";
 import AdminDashboard from "./screens/Admin/AdminDashboard";
+import ForgotPasswordScreen from "./screens/Auth/ForgotPassword";
+import OrdersDetail from "./screens/Admin/Orders/OrderDetails";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // import firebase from "@react-native-firebase/app";
 // import "@react-native-firebase/firestore";
@@ -26,7 +29,19 @@ import AdminDashboard from "./screens/Admin/AdminDashboard";
 
 const Stack = createStackNavigator();
 
-const App = (props) => {
+const App = ({ navigation }) => {
+  useEffect(async () => {
+    const getStorage = await AsyncStorage.getItem("e-photocopier_auth_data");
+    if (getStorage) {
+      const obj = JSON.parse(getStorage);
+      if (obj.role == "user") {
+        navigation.navigate("Home");
+      }
+      if (obj.role == "admin") {
+        navigation.navigate("Admin Home");
+      }
+    }
+  }, []);
   return (
     <Provider store={store}>
       <NavigationContainer styles={styles.container}>
@@ -70,7 +85,19 @@ const App = (props) => {
               headerTintColor: "#ffffff",
             }}
           />
-
+          <Stack.Screen
+            name="Forgot Password"
+            component={ForgotPasswordScreen}
+            options={{
+              headerStyle: {
+                backgroundColor: "#2291FF",
+              },
+              headerTitleStyle: {
+                color: "white",
+              },
+              headerTintColor: "#ffffff",
+            }}
+          />
           <Stack.Screen
             name="Home"
             component={Dashboard}
@@ -96,7 +123,20 @@ const App = (props) => {
               headerTitleStyle: {
                 color: "white",
               },
-
+              headerLeft: () => null,
+              headerTintColor: "#ffffff",
+            }}
+          />
+          <Stack.Screen
+            name="Order Detail"
+            component={OrdersDetail}
+            options={{
+              headerStyle: {
+                backgroundColor: "#2291FF",
+              },
+              headerTitleStyle: {
+                color: "white",
+              },
               headerTintColor: "#ffffff",
             }}
           />

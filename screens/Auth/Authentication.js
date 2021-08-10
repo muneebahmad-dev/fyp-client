@@ -87,12 +87,12 @@ export const LoginScreen = ({ navigation }) => {
 
       <ActivityIndicator animating={isLoading} color="white" size={"large"} />
       <View style={styles.signupbtn}>
-        <Text style={styles.acc}>Don't Have an Account?</Text>
+        <Text style={styles.acc}>Did you Forgot your Password?</Text>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate("Signup")}
+          onPress={() => navigation.navigate("Forgot Password")}
         >
-          <Text style={styles.btn}> Sign Up </Text>
+          <Text style={styles.btn}> Forgot Password </Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -231,8 +231,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     marginTop: "7%",
     padding: 9,
-    paddingLeft: 20,
-    paddingRight: 20,
+    paddingHorizontal: "10%",
     borderRadius: 5,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 1 },

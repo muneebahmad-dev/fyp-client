@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { RadioButton, TextInput } from "react-native-paper";
+import { RadioButton } from "react-native-paper";
 const HomeTab = (props) => {
   const [documentType, setDocumentType] = useState("blackWhite");
   const [urgent, setUrgent] = useState("urgentNo");
