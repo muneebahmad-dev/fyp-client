@@ -10,6 +10,8 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 const OrdersTab = ({ navigation }) => {
   const [orders, setOrders] = useState("");
+  const [urgentOrder, setUrgentOrder] = useState("");
+
   const [id, setId] = useState("");
 
   const storage = async () => {
@@ -30,7 +32,14 @@ const OrdersTab = ({ navigation }) => {
         }
       );
       const responseJson = await response.json();
-      setOrders(responseJson);
+      const urgentOrder = responseJson.filter((list) => {
+        return list.urgent == "urgent";
+      });
+      const order = responseJson.filter((list) => {
+        return list.urgent == "no";
+      });
+      setOrders(order);
+      setUrgentOrder(urgentOrder);
     } catch (err) {
       console.log(err);
     }
@@ -63,6 +72,21 @@ const OrdersTab = ({ navigation }) => {
         </View>
       </View>
       <View style={Styles.mainContent}>
+        <Text>Urgent Orders</Text>
+        <FlatList
+          data={urgentOrder}
+          keyExtractor={(item) => item._id}
+          renderItem={({ item, index }) => (
+            <View>
+              <TouchableOpacity onPress={() => orderDetailHandler(item)}>
+                <Text>{item.filePath}</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+        />
+      </View>
+      <View style={Styles.mainContent}>
+        <Text>Normal Orders</Text>
         <FlatList
           data={orders}
           keyExtractor={(item) => item._id}

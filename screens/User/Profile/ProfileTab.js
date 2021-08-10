@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Alert, TouchableHighlight } from "react-native";
-import { Button } from "react-native";
 import { Image } from "react-native";
 import { SafeAreaView, View } from "react-native";
 import { TouchableOpacity } from "react-native";
@@ -171,6 +170,12 @@ const ProfileTab = ({ navigation }) => {
         <View style={Styles.logoutBtn}>
           <TouchableOpacity
             style={Styles.button}
+            onPress={() => navigation.navigate("Change Password")}
+          >
+            <Text style={Styles.btn}> Change Password </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={Styles.button}
             onPress={() => logoutHandler()}
           >
             <Text style={Styles.btn}> Logout </Text>
@@ -261,7 +266,7 @@ const Styles = StyleSheet.create({
   },
   mainContent: {
     flex: 4,
-    paddingTop: 50,
+    paddingTop: 20,
   },
   IdMain: {
     flex: 1.5,

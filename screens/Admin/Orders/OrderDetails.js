@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Button,
@@ -11,11 +11,43 @@ import {
   Linking,
 } from "react-native";
 import { RadioButton } from "react-native-paper";
+import { useToast } from "react-native-toast-notifications";
 
 const OrdersDetail = ({ route }) => {
+  const item = route.params.item;
+
+  const [isLoading, setIsLoading] = useState(false);
   const [price, setPrice] = useState("");
   const [status, setStatus] = useState("Pending");
-  const item = route.params.item;
+  const [orderId, setOrderId] = useState();
+
+  const toast = useToast();
+
+  useEffect(() => {
+    setOrderId(item._id);
+  }, []);
+
+  const updateOrder = async () => {
+    setIsLoading(true);
+    try {
+      const response = await fetch(
+        `http://e-photocopier-server.herokuapp.com/api/user/form/orderUpdate/${orderId}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ status, price }),
+        }
+      );
+      const responseJson = await response.json();
+      console.log(responseJson);
+      toast.show("Order Updated Successfully!");
+    } catch (err) {
+      console.log(err);
+    }
+    setIsLoading(false);
+  };
   return (
     <View style={styles.container}>
       <View style={styles.btnview}>
@@ -53,9 +85,10 @@ const OrdersDetail = ({ route }) => {
         />
         <Text style={{ fontSize: 20 }}> Placed </Text>
       </View>
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={() => updateOrder()}>
         <Text style={styles.btn}> Submit </Text>
       </TouchableOpacity>
+      <ActivityIndicator animating={isLoading} color="#2291FF" size="large" />
     </View>
   );
 };

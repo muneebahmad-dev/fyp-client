@@ -15,6 +15,7 @@ import {
 } from "react-native";
 import logo from "../../assets/photo-white.png";
 import jwtDecode from "jwt-decode";
+import { useToast } from "react-native-toast-notifications";
 
 export const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -25,8 +26,6 @@ export const LoginScreen = ({ navigation }) => {
   const dispatch = useDispatch();
 
   const login = async () => {
-    // navigation.navigate("Home");
-    // navigation.navigate("Admin Home");
     setIsLoading(true);
     try {
       const response = await fetch(
@@ -100,6 +99,7 @@ export const LoginScreen = ({ navigation }) => {
 };
 
 export const SignUpScreen = ({ navigation }) => {
+  const toast = useToast();
   const [name, setName] = useState("");
   const [username, setusername] = useState("");
   const [password, setpassword] = useState("");
@@ -125,7 +125,12 @@ export const SignUpScreen = ({ navigation }) => {
           }),
         }
       );
-      navigation.navigate("LogIn");
+      toast.show("Account created successfully");
+      setName("");
+      setusername("");
+      setpassword("");
+      setemail("");
+      setphonenumber("");
     } catch (err) {
       console.error(err.message);
     }
@@ -177,7 +182,7 @@ export const SignUpScreen = ({ navigation }) => {
           setphonenumber(e.target.value);
         }}
       />
-      <TouchableOpacity style={styles.button} onPress={() => signup}>
+      <TouchableOpacity style={styles.button} onPress={() => signup()}>
         <Text style={styles.btn}> Sign Up </Text>
       </TouchableOpacity>
       <ActivityIndicator size={"large"} animating={isLoading} color="white" />

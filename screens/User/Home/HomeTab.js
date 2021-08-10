@@ -15,7 +15,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { RadioButton } from "react-native-paper";
 const HomeTab = (props) => {
   const [documentType, setDocumentType] = useState("blackWhite");
-  const [urgent, setUrgent] = useState("urgentNo");
+  const [urgent, setUrgent] = useState("no");
   const [file, setFile] = useState("");
   const [id, setId] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -123,8 +123,8 @@ const HomeTab = (props) => {
       <View  style={{ flexDirection:'row', fontSize: 20 }}> */}
         <RadioButton
           title="urgent"
-          value="urgentNo"
-          status={urgent === "urgentNo" ? "checked" : "unchecked"}
+          value="no"
+          status={urgent === "no" ? "checked" : "unchecked"}
           onPress={() => setUrgent("urgentNo")}
         />
         <Text style={{ padding: 3, fontSize: 20 }}> No </Text>
