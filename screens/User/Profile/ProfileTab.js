@@ -7,9 +7,11 @@ import { StyleSheet, Text } from "react-native";
 import { auth_logout } from "../../Auth/AuthSlice";
 import { useDispatch, useSelector } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as ImagePicker from "expo-image-picker";
 const ProfileTab = ({ navigation }) => {
   const [id, setId] = useState("");
   const [userData, setUserData] = useState("");
+  const [image, setImage] = useState(null);
 
   const dispatch = useDispatch();
 
@@ -18,6 +20,20 @@ const ProfileTab = ({ navigation }) => {
     const obj = JSON.parse(userState);
     console.log(obj, "async");
     setId(obj._id);
+  };
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.cancelled) {
+      setImage(result.uri);
+    }
   };
 
   useEffect(() => {
@@ -89,12 +105,14 @@ const ProfileTab = ({ navigation }) => {
         </View>
         <View style={Styles.headerImageContainer}>
           <View style={Styles.ImageContainer}>
-            <TouchableHighlight>
+            <TouchableOpacity onPress={() => pickImage()}>
               <Image
-                source={require("../../../assets/muneeb.jpg")}
+                source={{
+                  uri: image,
+                }}
                 style={Styles.Image}
               />
-            </TouchableHighlight>
+            </TouchableOpacity>
           </View>
         </View>
       </View>

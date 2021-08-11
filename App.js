@@ -13,6 +13,7 @@ import OrdersDetail from "./screens/Admin/Orders/OrderDetails";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ToastProvider } from "react-native-toast-notifications";
 import ChangePasswordScreen from "./screens/Auth/ChangePassword";
+import CompletedOrdersDetail from "./screens/Admin/Orders/CompletedOrdersDetail";
 
 // import firebase from "@react-native-firebase/app";
 // import "@react-native-firebase/firestore";
@@ -133,6 +134,19 @@ const App = ({ navigation }) => {
             <Stack.Screen
               name="Order Detail"
               component={OrdersDetail}
+              options={{
+                headerStyle: {
+                  backgroundColor: "#2291FF",
+                },
+                headerTitleStyle: {
+                  color: "white",
+                },
+                headerTintColor: "#ffffff",
+              }}
+            />
+            <Stack.Screen
+              name="Completed Orders Detail"
+              component={CompletedOrdersDetail}
               options={{
                 headerStyle: {
                   backgroundColor: "#2291FF",

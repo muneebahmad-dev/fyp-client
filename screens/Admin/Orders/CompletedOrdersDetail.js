@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { RadioButton } from "react-native-paper";
 import { useToast } from "react-native-toast-notifications";
-const OrdersDetail = ({ route }) => {
+const CompletedOrdersDetail = ({ route }) => {
   const item = route.params.item;
 
   const [isLoading, setIsLoading] = useState(false);
@@ -30,27 +30,6 @@ const OrdersDetail = ({ route }) => {
     setOrderId(item._id);
   }, []);
 
-  const updateOrder = async () => {
-    setIsLoading(true);
-    try {
-      const response = await fetch(
-        `http://e-photocopier-server.herokuapp.com/api/user/form/orderUpdate/${orderId}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ status, price }),
-        }
-      );
-      const responseJson = await response.json();
-      console.log(responseJson);
-      toast.show("Order Updated Successfully!");
-    } catch (err) {
-      console.log(err);
-    }
-    setIsLoading(false);
-  };
   return (
     <SafeAreaView style={Styles.container}>
       <View style={Styles.headerContainer}>
@@ -61,7 +40,7 @@ const OrdersDetail = ({ route }) => {
           >
             {/* <Octicons name="three-bars" size={28} color="white" /> */}
           </TouchableOpacity>
-          <Text style={Styles.headerText}>Change Order Status</Text>
+          <Text style={Styles.headerText}>Completed Orders Status</Text>
           <View style={Styles.headerIconContainer}>
             <TouchableOpacity style={Styles.headerBtn}>
               {/* <AntDesign name="setting" size={28} color="white" /> */}
@@ -79,61 +58,7 @@ const OrdersDetail = ({ route }) => {
         >
           <Text style={Styles.btn}> Order Name: item.filePath</Text>
         </TouchableOpacity>
-        <View style={{ marginTop: "15%" }}>
-          <Text style={{ fontSize: 22, fontWeight: "bold" }}>
-            Placed the Order :
-          </Text>
-        </View>
-        <View style={{ marginTop: "2%" }}>
-          <View style={Styles.input}>
-            <TextInput
-              style={Styles.input}
-              placeholder="Price"
-              autoCapitalize="none"
-              placeholderTextColor="#2291FF"
-              onChangeText={(e) => {
-                setPrice(e);
-              }}
-            />
-          </View>
-        </View>
-        <View
-          style={{
-            flexDirection: "row",
-            marginTop: "10%",
-            justifyContent: "center",
-          }}
-        >
-          <RadioButton
-            title="Pending"
-            value="Pending"
-            status={status === "Pending" ? "checked" : "unchecked"}
-            onPress={() => setStatus("Pending")}
-          />
-          <Text
-            style={{
-              fontSize: 20,
-              marginRight: "3%",
-            }}
-          >
-            {" "}
-            Pending{" "}
-          </Text>
-
-          <RadioButton
-            title="Placed"
-            value="Placed"
-            status={status === "Placed" ? "checked" : "unchecked"}
-            onPress={() => setStatus("Placed")}
-          />
-          <Text style={{ fontSize: 20 }}> Placed </Text>
-        </View>
-        <View style={Styles.logoutBtn}>
-          <TouchableOpacity style={Styles.button} onPress={() => updateOrder()}>
-            <Text style={Styles.btn}> Change Status </Text>
-          </TouchableOpacity>
-        </View>
-        <ActivityIndicator animating={isLoading} color="#2291FF" size="large" />
+        <Text>File name </Text>
       </View>
     </SafeAreaView>
   );
@@ -319,4 +244,4 @@ const Styles = StyleSheet.create({
     textAlign: "right",
   },
 });
-export default OrdersDetail;
+export default CompletedOrdersDetail;

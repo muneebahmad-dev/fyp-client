@@ -8,7 +8,7 @@ import {
   FlatList,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-const OrdersTab = ({ navigation }) => {
+const CompletedOrdersTab = ({ navigation }) => {
   const [orders, setOrders] = useState("");
   const [urgentOrder, setUrgentOrder] = useState("");
 
@@ -46,7 +46,7 @@ const OrdersTab = ({ navigation }) => {
   };
 
   const orderDetailHandler = (item) => {
-    navigation.navigate("Order Detail", { item: item });
+    navigation.navigate("Completed Orders Detail", { item: item });
   };
 
   useEffect(() => {
@@ -65,14 +65,13 @@ const OrdersTab = ({ navigation }) => {
           >
             {/* <Octicons name="three-bars" size={28} color="white" /> */}
           </TouchableOpacity>
-          <Text style={Styles.headerText}>Orders</Text>
+          <Text style={Styles.headerText}>Completed Orders</Text>
           <View style={Styles.headerIconContainer}>
             <TouchableOpacity style={Styles.headerBtn}></TouchableOpacity>
           </View>
         </View>
       </View>
       <View style={Styles.mainContent}>
-        <Text style={Styles.orderHeading}>Urgent Orders</Text>
         <FlatList
           data={urgentOrder}
           keyExtractor={(item) => item._id}
@@ -85,24 +84,6 @@ const OrdersTab = ({ navigation }) => {
                 <Text style={Styles.orderText}> Order: "item.fileName"</Text>
                 <Text style={Styles.orderText}>
                   {" "}
-                  Order Status: {item.status}
-                </Text>
-              </TouchableOpacity>
-            </View>
-          )}
-        />
-        <Text style={Styles.orderHeading}>Normal Orders</Text>
-        <FlatList
-          data={orders}
-          keyExtractor={(item) => item._id}
-          renderItem={({ item, index }) => (
-            <View style={Styles.flatlist}>
-              <TouchableOpacity
-                onPress={() => orderDetailHandler(item)}
-                style={Styles.orderDetail}
-              >
-                <Text style={Styles.orderText}> Order: "item.fileName"</Text>
-                <Text style={Styles.orderText}>
                   Order Status: {item.status}
                 </Text>
               </TouchableOpacity>
@@ -281,4 +262,4 @@ const Styles = StyleSheet.create({
   },
 });
 
-export default OrdersTab;
+export default CompletedOrdersTab;

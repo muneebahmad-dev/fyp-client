@@ -8,6 +8,7 @@ import ChatTab from "./Chat/ChatTab";
 import { useDispatch } from "react-redux";
 import { auth_logout } from "../Auth/AuthSlice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import CompletedOrdersTab from "./Orders/CompletedOrdersTab";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -57,6 +58,7 @@ const AdminDashboard = ({ navigation }) => {
     >
       {/* <Tab.Screen name="Home" component={HomeTab} /> */}
       <Tab.Screen name="Orders" component={OrdersTab} />
+      <Tab.Screen name="Completed Orders" component={CompletedOrdersTab} />
       <Tab.Screen name="Chat" component={ChatTab} />
       <Tab.Screen name="Profile" component={ProfileTab} />
     </Tab.Navigator>
