@@ -33,10 +33,10 @@ const OrdersTab = ({ navigation }) => {
       );
       const responseJson = await response.json();
       const urgentOrder = responseJson.filter((list) => {
-        return list.urgent == "urgent";
+        return list.urgent == "urgent" && list.status == "Pending";
       });
       const order = responseJson.filter((list) => {
-        return list.urgent == "no";
+        return list.urgent == "no" && list.status == "Pending";
       });
       setOrders(order);
       setUrgentOrder(urgentOrder);
@@ -73,42 +73,76 @@ const OrdersTab = ({ navigation }) => {
       </View>
       <View style={Styles.mainContent}>
         <Text style={Styles.orderHeading}>Urgent Orders</Text>
-        <FlatList
-          data={urgentOrder}
-          keyExtractor={(item) => item._id}
-          renderItem={({ item, index }) => (
-            <View style={Styles.flatlist}>
-              <TouchableOpacity
-                onPress={() => orderDetailHandler(item)}
-                style={Styles.orderDetail}
-              >
-                <Text style={Styles.orderText}> Order: "item.fileName"</Text>
-                <Text style={Styles.orderText}>
-                  {" "}
-                  Order Status: {item.status}
-                </Text>
-              </TouchableOpacity>
-            </View>
-          )}
-        />
+        {urgentOrder.length != 0 ? (
+          <FlatList
+            data={urgentOrder}
+            keyExtractor={(item) => item._id}
+            renderItem={({ item, index }) => (
+              <View style={Styles.flatlist}>
+                <TouchableOpacity
+                  onPress={() => orderDetailHandler(item)}
+                  style={Styles.orderDetail}
+                >
+                  <Text numberOfLines={1} style={Styles.orderText}>
+                    {" "}
+                    Order: {item.fileName}
+                  </Text>
+                  <Text style={Styles.orderText}>
+                    {" "}
+                    Order Status: {item.status}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            )}
+          />
+        ) : (
+          <Text
+            style={{
+              fontSize: 15,
+              fontWeight: "bold",
+              fontStyle: "italic",
+              textAlign: "center",
+              margin: "10%",
+            }}
+          >
+            No Urgent Order Found
+          </Text>
+        )}
         <Text style={Styles.orderHeading}>Normal Orders</Text>
-        <FlatList
-          data={orders}
-          keyExtractor={(item) => item._id}
-          renderItem={({ item, index }) => (
-            <View style={Styles.flatlist}>
-              <TouchableOpacity
-                onPress={() => orderDetailHandler(item)}
-                style={Styles.orderDetail}
-              >
-                <Text style={Styles.orderText}> Order: "item.fileName"</Text>
-                <Text style={Styles.orderText}>
-                  Order Status: {item.status}
-                </Text>
-              </TouchableOpacity>
-            </View>
-          )}
-        />
+        {orders.length != 0 ? (
+          <FlatList
+            data={orders}
+            keyExtractor={(item) => item._id}
+            renderItem={({ item, index }) => (
+              <View style={Styles.flatlist}>
+                <TouchableOpacity
+                  onPress={() => orderDetailHandler(item)}
+                  style={Styles.orderDetail}
+                >
+                  <Text style={Styles.orderText} numberOfLines={1}>
+                    {" "}
+                    Order: {item.fileName}
+                  </Text>
+                  <Text style={Styles.orderText}>
+                    Order Status: {item.status}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            )}
+          />
+        ) : (
+          <Text
+            style={{
+              fontSize: 15,
+              fontWeight: "bold",
+              fontStyle: "italic",
+              textAlign: "center",
+              margin: "10%",
+            }}
+          >
+            No Orders Found
+          </Text>
+        )}
       </View>
     </SafeAreaView>
   );
@@ -125,16 +159,20 @@ const Styles = StyleSheet.create({
     fontWeight: "bold",
   },
   flatlist: {
-    backgroundColor: "#C0C0C0",
-    marginTop: 4,
+    backgroundColor: "#2291FF",
+    marginTop: "4%",
   },
   orderDetail: {
     flexDirection: "row",
-    justifyContent: "space-between",
     padding: 10,
   },
   orderText: {
+    flex: 1,
     fontSize: 15,
+    fontWeight: "bold",
+    // paddingRight: 10,
+    paddingHorizontal: 10,
+    color: "white",
   },
   headerContainer: {
     paddingTop: 69,

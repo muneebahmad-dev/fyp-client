@@ -8,7 +8,7 @@ import {
   FlatList,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-const OrdersTab = (props) => {
+const OrdersTab = ({ navigation }) => {
   const [orders, setOrders] = useState("");
   const [id, setId] = useState("");
 
@@ -16,6 +16,10 @@ const OrdersTab = (props) => {
     const userState = await AsyncStorage.getItem("e-photocopier_auth_data");
     const obj = JSON.parse(userState);
     setId(obj._id);
+  };
+
+  const orderDetailHandler = (item) => {
+    navigation.navigate("Orders Detail", { item: item });
   };
 
   const getOrders = async () => {
@@ -59,15 +63,40 @@ const OrdersTab = (props) => {
         </View>
       </View>
       <View style={Styles.mainContent}>
-        <FlatList
-          data={orders}
-          keyExtractor={(item) => item._id}
-          renderItem={({ item, index }) => (
-            <View>
-              <Text>{item.filePath}</Text>
-            </View>
-          )}
-        />
+        {orders.length != 0 ? (
+          <FlatList
+            data={orders}
+            keyExtractor={(item) => item._id}
+            renderItem={({ item, index }) => (
+              <View style={Styles.flatlist}>
+                <TouchableOpacity
+                  onPress={() => orderDetailHandler(item)}
+                  style={Styles.orderDetail}
+                >
+                  <Text style={Styles.orderText} numberOfLines={1}>
+                    {" "}
+                    Order: {item.fileName}
+                  </Text>
+                  <Text style={Styles.orderText}>
+                    Order Status: {item.status}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            )}
+          />
+        ) : (
+          <Text
+            style={{
+              fontSize: 15,
+              fontWeight: "bold",
+              fontStyle: "italic",
+              textAlign: "center",
+              margin: "10%",
+            }}
+          >
+            No Orders Found
+          </Text>
+        )}
       </View>
     </SafeAreaView>
   );
@@ -89,6 +118,22 @@ const Styles = StyleSheet.create({
     borderBottomLeftRadius: 15,
     borderBottomRightRadius: 15,
     backgroundColor: "#2291FF",
+  },
+  flatlist: {
+    backgroundColor: "#2291FF",
+    marginTop: "4%",
+  },
+  orderDetail: {
+    flexDirection: "row",
+    padding: 10,
+  },
+  orderText: {
+    flex: 1,
+    fontSize: 15,
+    fontWeight: "bold",
+    // paddingRight: 10,
+    paddingHorizontal: 10,
+    color: "white",
   },
   headerTopContainer: {
     paddingTop: 35,

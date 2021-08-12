@@ -28,7 +28,7 @@ const CompletedOrdersDetail = ({ route }) => {
 
   useEffect(() => {
     setOrderId(item._id);
-  }, []);
+  }, [route]);
 
   return (
     <SafeAreaView style={Styles.container}>
@@ -40,7 +40,7 @@ const CompletedOrdersDetail = ({ route }) => {
           >
             {/* <Octicons name="three-bars" size={28} color="white" /> */}
           </TouchableOpacity>
-          <Text style={Styles.headerText}>Completed Orders Status</Text>
+          <Text style={Styles.headerText}>Order Status</Text>
           <View style={Styles.headerIconContainer}>
             <TouchableOpacity style={Styles.headerBtn}>
               {/* <AntDesign name="setting" size={28} color="white" /> */}
@@ -49,16 +49,29 @@ const CompletedOrdersDetail = ({ route }) => {
         </View>
       </View>
       <View style={Styles.mainContent}>
-        <Text style={{ fontSize: 22, color: "black" }}>
+        <Text style={{ fontSize: 15, color: "black" }}>
           Tap on Order Name to Download the file
         </Text>
         <TouchableOpacity
           style={Styles.button}
           onPress={() => Linking.openURL(item.filePath)}
         >
-          <Text style={Styles.btn}> Order Name: item.filePath</Text>
+          <Text style={Styles.btn}> Order Name: {item.filePath}</Text>
         </TouchableOpacity>
-        <Text>File name </Text>
+        <Text style={{ fontSize: 16, marginTop: "2%", fontWeight: "bold" }}>
+          File name: {item.fileName}{" "}
+        </Text>
+        <Text style={{ fontSize: 16, marginTop: "2%", fontWeight: "bold" }}>
+          Order Status: {item.status}
+        </Text>
+        <Text style={{ fontSize: 16, marginTop: "2%", fontWeight: "bold" }}>
+          Order Placed Time and Date: {item.orderUpdatedTimeStamp}
+        </Text>
+        {item.status != "Pending" && (
+          <Text style={{ fontSize: 16, marginTop: "2%", fontWeight: "bold" }}>
+            Order Price: {item.price}
+          </Text>
+        )}
       </View>
     </SafeAreaView>
   );

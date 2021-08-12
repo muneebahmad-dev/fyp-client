@@ -32,21 +32,17 @@ const CompletedOrdersTab = ({ navigation }) => {
         }
       );
       const responseJson = await response.json();
-      const urgentOrder = responseJson.filter((list) => {
-        return list.urgent == "urgent";
+      const placedOrders = responseJson.filter((list) => {
+        return list.status == "Placed";
       });
-      const order = responseJson.filter((list) => {
-        return list.urgent == "no";
-      });
-      setOrders(order);
-      setUrgentOrder(urgentOrder);
+      setUrgentOrder(placedOrders);
     } catch (err) {
       console.log(err);
     }
   };
 
   const orderDetailHandler = (item) => {
-    navigation.navigate("Completed Orders Detail", { item: item });
+    navigation.navigate("Orders Detail", { item: item });
   };
 
   useEffect(() => {
@@ -81,7 +77,10 @@ const CompletedOrdersTab = ({ navigation }) => {
                 onPress={() => orderDetailHandler(item)}
                 style={Styles.orderDetail}
               >
-                <Text style={Styles.orderText}> Order: "item.fileName"</Text>
+                <Text style={Styles.orderText} numberOfLines={1}>
+                  {" "}
+                  Order: {item.fileName}
+                </Text>
                 <Text style={Styles.orderText}>
                   {" "}
                   Order Status: {item.status}
@@ -106,7 +105,7 @@ const Styles = StyleSheet.create({
     fontWeight: "bold",
   },
   flatlist: {
-    backgroundColor: "#C0C0C0",
+    backgroundColor: "#2291FF",
     marginTop: 4,
   },
   orderDetail: {
@@ -115,7 +114,12 @@ const Styles = StyleSheet.create({
     padding: 10,
   },
   orderText: {
+    flex: 1,
     fontSize: 15,
+    fontWeight: "bold",
+    // paddingRight: 10,
+    paddingHorizontal: 10,
+    color: "white",
   },
   headerContainer: {
     paddingTop: 69,

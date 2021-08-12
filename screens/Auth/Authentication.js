@@ -16,6 +16,7 @@ import {
 import logo from "../../assets/photo-white.png";
 import jwtDecode from "jwt-decode";
 import { useToast } from "react-native-toast-notifications";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -41,6 +42,8 @@ export const LoginScreen = ({ navigation }) => {
       const responseJson = await response.json();
       if (responseJson?.token) {
         const decodedToken = jwtDecode(responseJson.token);
+        const responseStr = JSON.stringify(decodedToken);
+        await AsyncStorage.setItem("e-photocopier_auth_data", responseStr);
         if (decodedToken.role == "user") {
           navigation.navigate("Home");
         }
@@ -105,7 +108,11 @@ export const SignUpScreen = ({ navigation }) => {
   const [password, setpassword] = useState("");
   const [email, setemail] = useState("");
   const [phonenumber, setphonenumber] = useState("");
+  const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  const image =
+    "https://e-fyp.s3.amazonaws.com/19d623ee-bad5-4717-ab96-592daeef1f92-dummyimage.png";
   const signup = async (e) => {
     setIsLoading(true);
     try {
@@ -122,17 +129,21 @@ export const SignUpScreen = ({ navigation }) => {
             username,
             password,
             phonenumber,
+            image,
           }),
         }
       );
-      toast.show("Account created successfully");
-      setName("");
-      setusername("");
-      setpassword("");
-      setemail("");
-      setphonenumber("");
+      const responseJson = await response.json();
+      if (responseJson._id) {
+        toast.show("Account created successfully");
+      } else {
+        setError(responseJson);
+      }
+
+      console.log(responseJson);
     } catch (err) {
-      console.error(err.message);
+      setError(err);
+      console.error(err);
     }
     setIsLoading(false);
   };
@@ -145,14 +156,14 @@ export const SignUpScreen = ({ navigation }) => {
         placeholder="Name"
         autoCapitalize="none"
         placeholderTextColor="white"
-        onChange={(e) => setName(e.target.value)}
+        onChangeText={(e) => setName(e)}
       />
       <TextInput
         style={styles.input}
         placeholder="Username"
         autoCapitalize="none"
         placeholderTextColor="white"
-        onChange={(e) => setusername(e.target.value)}
+        onChangeText={(e) => setusername(e)}
       />
       <TextInput
         style={styles.input}
@@ -160,8 +171,8 @@ export const SignUpScreen = ({ navigation }) => {
         secureTextEntry={true}
         autoCapitalize="none"
         placeholderTextColor="white"
-        onChange={(e) => {
-          setpassword(e.target.value);
+        onChangeText={(e) => {
+          setpassword(e);
         }}
       />
       <TextInput
@@ -169,8 +180,8 @@ export const SignUpScreen = ({ navigation }) => {
         placeholder="Email"
         autoCapitalize="none"
         placeholderTextColor="white"
-        onChange={(e) => {
-          setemail(e.target.value);
+        onChangeText={(e) => {
+          setemail(e);
         }}
       />
       <TextInput
@@ -178,8 +189,8 @@ export const SignUpScreen = ({ navigation }) => {
         placeholder="Phone Number"
         autoCapitalize="none"
         placeholderTextColor="white"
-        onChange={(e) => {
-          setphonenumber(e.target.value);
+        onChangeText={(e) => {
+          setphonenumber(e);
         }}
       />
       <TouchableOpacity style={styles.button} onPress={() => signup()}>

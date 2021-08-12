@@ -11,12 +11,12 @@ export const AuthSlice = createSlice({
   reducers: {
     auth_login: async (state, { payload }) => {
       state.authState = payload;
-      const jsonPayload = JSON.stringify(payload);
-      try {
-        await AsyncStorage.setItem("e-photocopier_auth_data", jsonPayload);
-      } catch (err) {
-        console.log(err);
-      }
+      // const jsonPayload = JSON.stringify(payload);
+      // try {
+      //   await AsyncStorage.setItem("e-photocopier_auth_data", jsonPayload);
+      // } catch (err) {
+      //   console.log(err);
+      // }
       console.log(state.authState, "authstate");
     },
     auth_logout: async (state, { payload }) => {

@@ -13,6 +13,7 @@ import {
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { RadioButton } from "react-native-paper";
+import { useToast } from "react-native-toast-notifications";
 const HomeTab = (props) => {
   const [documentType, setDocumentType] = useState("blackWhite");
   const [urgent, setUrgent] = useState("no");
@@ -21,6 +22,7 @@ const HomeTab = (props) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const formData = new FormData();
+  const toast = useToast();
 
   useEffect(() => {
     storage();
@@ -60,6 +62,9 @@ const HomeTab = (props) => {
       );
       const responseJson = await response.json();
       console.log(responseJson);
+      if (responseJson._id) {
+        toast.show("Order placed Successfully!");
+      }
       setFile(" ");
       setDocumentType("blackWhite");
       setUrgent("urgentNo");

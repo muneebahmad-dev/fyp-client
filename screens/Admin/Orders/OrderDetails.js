@@ -28,7 +28,7 @@ const OrdersDetail = ({ route }) => {
 
   useEffect(() => {
     setOrderId(item._id);
-  }, []);
+  }, [route]);
 
   const updateOrder = async () => {
     setIsLoading(true);
@@ -70,21 +70,24 @@ const OrdersDetail = ({ route }) => {
         </View>
       </View>
       <View style={Styles.mainContent}>
-        <Text style={{ fontSize: 22, color: "black" }}>
+        <Text style={{ fontSize: 17, color: "black" }}>
           Tap on Order Name to Download the file
         </Text>
         <TouchableOpacity
           style={Styles.button}
           onPress={() => Linking.openURL(item.filePath)}
         >
-          <Text style={Styles.btn}> Order Name: item.filePath</Text>
+          <Text style={Styles.btn}> Order Name: {item.filePath}</Text>
         </TouchableOpacity>
-        <View style={{ marginTop: "15%" }}>
+        <Text style={{ fontSize: 17, marginTop: "2%" }}>
+          Order Created Time: {item.orderCreatedTimeStamp}
+        </Text>
+        <View style={{ marginTop: "15%", marginLeft: "5%" }}>
           <Text style={{ fontSize: 22, fontWeight: "bold" }}>
             Placed the Order :
           </Text>
         </View>
-        <View style={{ marginTop: "2%" }}>
+        <View style={{ marginTop: "2%", marginLeft: "8%" }}>
           <View style={Styles.input}>
             <TextInput
               style={Styles.input}

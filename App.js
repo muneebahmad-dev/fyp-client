@@ -145,7 +145,7 @@ const App = ({ navigation }) => {
               }}
             />
             <Stack.Screen
-              name="Completed Orders Detail"
+              name="Orders Detail"
               component={CompletedOrdersDetail}
               options={{
                 headerStyle: {

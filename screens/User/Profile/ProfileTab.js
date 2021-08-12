@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Alert, TouchableHighlight } from "react-native";
+import { Alert, Linking, TouchableHighlight } from "react-native";
 import { Image } from "react-native";
 import { SafeAreaView, View } from "react-native";
 import { TouchableOpacity } from "react-native";
@@ -11,38 +11,28 @@ import * as ImagePicker from "expo-image-picker";
 const ProfileTab = ({ navigation }) => {
   const [id, setId] = useState("");
   const [userData, setUserData] = useState("");
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState("");
 
   const dispatch = useDispatch();
 
+  const profileId = useSelector((state) => state);
+
   const storage = async () => {
-    const userState = await AsyncStorage.getItem("e-photocopier_auth_data");
-    const obj = JSON.parse(userState);
-    console.log(obj, "async");
-    setId(obj._id);
-  };
-
-  const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      quality: 1,
-    });
-
-    console.log(result);
-
-    if (!result.cancelled) {
-      setImage(result.uri);
+    try {
+      const userState = await AsyncStorage.getItem("e-photocopier_auth_data");
+      const obj = JSON.parse(userState);
+      console.log(obj, "async");
+      setId(obj._id);
+      getUser();
+    } catch (err) {
+      console.log(err);
     }
   };
 
   useEffect(() => {
     storage();
-  }, []);
+  }, [id]);
 
-  useEffect(() => {
-    getUser();
-  }, [id, userData]);
   const logoutHandler = () => {
     Alert.alert("Hold On", "Are you sure you want to logout?", [
       {
@@ -79,11 +69,52 @@ const ProfileTab = ({ navigation }) => {
         }
       );
       const responseJson = await response.json();
-      setUserData(responseJson.message);
+      setUserData(responseJson?.message);
       // console.log(responseJson, "hello");
     } catch (err) {
       console.log(err);
     }
+  };
+
+  const changeProfileImg = async () => {
+    const formData = new FormData();
+    // setIsLoading(true);
+    formData.append("file", {
+      uri: image?.uri,
+      type: "image/jpg",
+      name: image?.name,
+    });
+    formData.append("userId", id);
+    try {
+      const response = await fetch(
+        "http://e-photocopier-server.herokuapp.com/api/user/uploadProfileImg",
+        {
+          method: "PATCH",
+          body: formData,
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      const responseJson = await response.json();
+      console.log(responseJson);
+      setImage(" ");
+    } catch (err) {
+      console.log(err);
+    }
+    console.log("hello", formData);
+    // setIsLoading(false);
+  };
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      quality: 1,
+    });
+
+    console.log("result", result);
+
+    setImage(result);
+    changeProfileImg();
   };
   // console.log(userData, "ss");
   return (
@@ -108,7 +139,7 @@ const ProfileTab = ({ navigation }) => {
             <TouchableOpacity onPress={() => pickImage()}>
               <Image
                 source={{
-                  uri: image,
+                  uri: userData.image,
                 }}
                 style={Styles.Image}
               />
@@ -140,38 +171,35 @@ const ProfileTab = ({ navigation }) => {
               <Text style={{ fontWeight: "bold" }}>Email:</Text>{" "}
               {userData.email}
             </Text>
-            <Text
-              style={{
-                fontSize: 22,
-
-                color: "black",
-                marginTop: 20,
-              }}
+            <TouchableOpacity
+              onPress={() => Linking.openURL(`tel:${userData.phonenumber}`)}
             >
-              <Text style={{ fontWeight: "bold" }}>Phone Number:</Text>{" "}
-              {userData.phonenumber}
-            </Text>
-            <Text
-              style={{
-                fontSize: 22,
+              <Text
+                style={{
+                  fontSize: 22,
 
-                color: "black",
-                marginTop: 20,
-              }}
-            >
-              <Text style={{ fontWeight: "bold" }}>Orders:</Text>{" "}
-              {userData?.order?.length}
-            </Text>
-            <Text
-              style={{
-                fontSize: 22,
+                  color: "black",
+                  marginTop: 20,
+                }}
+              >
+                <Text style={{ fontWeight: "bold" }}>Phone Number:</Text>{" "}
+                {userData.phonenumber}
+              </Text>
+            </TouchableOpacity>
 
-                color: "black",
-                marginTop: 20,
-              }}
-            >
-              <Text style={{ fontWeight: "bold" }}>Pending Orders:</Text> 0
-            </Text>
+            {userData?.role == "user" && (
+              <Text
+                style={{
+                  fontSize: 22,
+
+                  color: "black",
+                  marginTop: 20,
+                }}
+              >
+                <Text style={{ fontWeight: "bold" }}>Orders:</Text>{" "}
+                {userData?.order?.length}
+              </Text>
+            )}
             <Text
               style={{
                 fontSize: 22,
@@ -253,7 +281,7 @@ const Styles = StyleSheet.create({
     marginHorizontal: "10%",
   },
   headerImageContainer: {
-    flex: 0.3,
+    flex: 1,
     alignItems: "center",
   },
   headerBtn: {
@@ -283,8 +311,8 @@ const Styles = StyleSheet.create({
     backgroundColor: "grey",
   },
   mainContent: {
-    flex: 4,
-    paddingTop: 20,
+    flex: 3,
+    // paddingTop: 20,
   },
   IdMain: {
     flex: 1.5,
