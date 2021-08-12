@@ -53,7 +53,7 @@ const Dashboard = ({ navigation }) => {
       }}
     >
       <Tab.Screen name="Home" component={HomeTab} />
-      <Tab.Screen name="Chat" component={ChatTab} />
+      {/* <Tab.Screen name="Chat" component={ChatTab} /> */}
       <Tab.Screen name="Orders" component={OrdersTab} />
       <Tab.Screen name="Profile" component={ProfileTab} />
     </Tab.Navigator>

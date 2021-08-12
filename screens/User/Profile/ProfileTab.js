@@ -113,8 +113,8 @@ const ProfileTab = ({ navigation }) => {
 
     console.log("result", result);
 
-    setImage(result);
-    changeProfileImg();
+    setImage(result.uri);
+    // changeProfileImg();
   };
   // console.log(userData, "ss");
   return (
@@ -139,7 +139,7 @@ const ProfileTab = ({ navigation }) => {
             <TouchableOpacity onPress={() => pickImage()}>
               <Image
                 source={{
-                  uri: userData.image,
+                  uri: image || userData.image,
                 }}
                 style={Styles.Image}
               />
