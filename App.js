@@ -14,6 +14,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ToastProvider } from "react-native-toast-notifications";
 import ChangePasswordScreen from "./screens/Auth/ChangePassword";
 import CompletedOrdersDetail from "./screens/Admin/Orders/CompletedOrdersDetail";
+import VerifyUser from "./screens/Auth/VerifyOTP";
 
 // import firebase from "@react-native-firebase/app";
 // import "@react-native-firebase/firestore";
@@ -160,6 +161,19 @@ const App = ({ navigation }) => {
             <Stack.Screen
               name="Change Password"
               component={ChangePasswordScreen}
+              options={{
+                headerStyle: {
+                  backgroundColor: "#2291FF",
+                },
+                headerTitleStyle: {
+                  color: "white",
+                },
+                headerTintColor: "#ffffff",
+              }}
+            />
+            <Stack.Screen
+              name="Verify OTP"
+              component={VerifyUser}
               options={{
                 headerStyle: {
                   backgroundColor: "#2291FF",

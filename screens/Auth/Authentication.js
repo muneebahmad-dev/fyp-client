@@ -44,14 +44,18 @@ export const LoginScreen = ({ navigation }) => {
         const decodedToken = jwtDecode(responseJson.token);
         const responseStr = JSON.stringify(decodedToken);
         await AsyncStorage.setItem("e-photocopier_auth_data", responseStr);
-        if (decodedToken.role == "user") {
-          navigation.navigate("Home");
+        if (decodedToken.verified == false) {
+          navigation.navigate("Verify OTP", { id: decodedToken._id });
+        } else {
+          if (decodedToken.role == "user") {
+            navigation.navigate("Home");
+          }
+          if (decodedToken.role == "admin") {
+            navigation.navigate("Admin Home");
+          }
+          dispatch(auth_login(decodedToken));
+          console.log(decodedToken);
         }
-        if (decodedToken.role == "admin") {
-          navigation.navigate("Admin Home");
-        }
-        dispatch(auth_login(decodedToken));
-        console.log(decodedToken);
       }
       if (responseJson?.message) {
         setError(responseJson.message);
@@ -135,7 +139,9 @@ export const SignUpScreen = ({ navigation }) => {
       );
       const responseJson = await response.json();
       if (responseJson._id) {
-        toast.show("Account created successfully");
+        const id = responseJson._id;
+        toast.show("OTP has been sent to the entered Email, Kindly verify");
+        navigation.navigate("Verify OTP", { id: id });
       } else {
         setError(responseJson);
       }
