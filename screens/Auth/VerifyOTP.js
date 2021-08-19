@@ -40,7 +40,9 @@ const VerifyUser = ({ route }) => {
         }
       );
       const responseJson = await response.json();
-      toast.show("Account Created Successfully!");
+      if (responseJson == "OTP Verified Successfully") {
+        toast.show("Account Created Successfully!");
+      }
     } catch (err) {
       setError(err);
       console.log(err);
