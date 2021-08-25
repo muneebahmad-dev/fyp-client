@@ -13,18 +13,13 @@ import {
 import { useToast } from "react-native-toast-notifications";
 import logo from "../../assets/photo-white.png";
 
-const VerifyUser = ({ route }) => {
+const VerifyUser = ({ route, navigation }) => {
   const [otp, setOtp] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const toast = useToast();
   const id = route.params.id;
-  // const storage = async () => {
-  //   const storage = await AsyncStorage.getItem("e-photocopier_auth_data");
-  //   const obj = JSON.parse(storage);
-  //   setId(obj._id);
-  // };
 
   const verifyOtp = async () => {
     setIsLoading(true);
@@ -40,18 +35,14 @@ const VerifyUser = ({ route }) => {
         }
       );
       const responseJson = await response.json();
-      if (responseJson == "OTP Verified Successfully") {
-        toast.show("Account Created Successfully!");
-      }
+      toast.show("Account Created Successfully!");
+      navigation.navigate("LogIn");
     } catch (err) {
       setError(err);
       console.log(err);
     }
     setIsLoading(false);
   };
-  // useEffect(() => {
-  //   storage();
-  // }, []);
   return (
     <View style={styles.container}>
       <Image source={logo} style={{ width: 305, height: 159 }} />
@@ -68,7 +59,7 @@ const VerifyUser = ({ route }) => {
         />
         <Text>{error}</Text>
       </View>
-      <TouchableOpacity style={styles.button} onPress={() => verifyOtp()}>
+      <TouchableOpacity style={styles.button} onPress={verifyOtp}>
         <Text style={styles.btn}> Verify OTP </Text>
       </TouchableOpacity>
       <ActivityIndicator animating={isLoading} size="large" color="white" />

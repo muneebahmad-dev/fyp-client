@@ -44,18 +44,18 @@ export const LoginScreen = ({ navigation }) => {
         const decodedToken = jwtDecode(responseJson.token);
         const responseStr = JSON.stringify(decodedToken);
         await AsyncStorage.setItem("e-photocopier_auth_data", responseStr);
-        // if (decodedToken.verified == false) {
-        //   navigation.navigate("Verify OTP", { id: decodedToken._id });
-        // } else {
-        //   if (decodedToken.role == "user") {
-        //     navigation.navigate("Home");
-        //   }
-        //   if (decodedToken.role == "admin") {
-        //     navigation.navigate("Admin Home");
-        //   }
-        //   dispatch(auth_login(decodedToken));
-        //   console.log(decodedToken);
-        // }
+        if (decodedToken.verified == false) {
+          navigation.navigate("Verify OTP", { id: decodedToken._id });
+        } else {
+          if (decodedToken.role == "user") {
+            navigation.navigate("Home");
+          }
+          if (decodedToken.role == "admin") {
+            navigation.navigate("Admin Home");
+          }
+          dispatch(auth_login(decodedToken));
+          console.log(decodedToken);
+        }
         if (decodedToken.role == "user") {
           navigation.navigate("Home");
         }
