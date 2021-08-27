@@ -17,6 +17,8 @@ import logo from "../../assets/photo-white.png";
 import jwtDecode from "jwt-decode";
 import { useToast } from "react-native-toast-notifications";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import firebase from "firebase/app";
+import "firebase/firestore";
 
 export const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -29,6 +31,12 @@ export const LoginScreen = ({ navigation }) => {
   const login = async () => {
     setIsLoading(true);
     try {
+      const result = await firebase
+        .auth()
+        .signInWithEmailAndPassword(email, password);
+
+      const uuid = result?.user.uid;
+      console.log(uuid, "***");
       const response = await fetch(
         "http://e-photocopier-server.herokuapp.com/api/user/login",
         {
@@ -128,6 +136,18 @@ export const SignUpScreen = ({ navigation }) => {
   const signup = async (e) => {
     setIsLoading(true);
     try {
+      console.log(email, password);
+      const result = await firebase
+        .auth()
+        .createUserWithEmailAndPassword(email, password);
+
+      firebase.firestore().collection("users").doc(result.user.uid).set({
+        email: result.user.email,
+        uid: result.user.uid,
+        status: "online",
+        name: name,
+      });
+
       const response = await fetch(
         "https://e-photocopier-server.herokuapp.com/api/user/signup",
         {

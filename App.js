@@ -16,36 +16,26 @@ import ChangePasswordScreen from "./screens/Auth/ChangePassword";
 import CompletedOrdersDetail from "./screens/Admin/Orders/CompletedOrdersDetail";
 import VerifyUser from "./screens/Auth/VerifyOTP";
 
-// import firebase from "@react-native-firebase/app";
-// import "@react-native-firebase/firestore";
-
-// const firebaseConfig = {
-//   apiKey: "AIzaSyCzFC6z3PUnpdbFhMooSJlsKk2fZHlh-CQ",
-//   authDomain: "e-photocopier.firebaseapp.com",
-//   projectId: "e-photocopier",
-//   storageBucket: "e-photocopier.appspot.com",
-//   messagingSenderId: "770827431066",
-//   appId: "1:770827431066:web:4f06cdeaa8012711bf8323",
-//   measurementId: "G-MQ8XH6DJXG",
-// };
-
-// firebase.initializeApp(firebaseConfig);
+import firebase from "firebase/app";
 
 const Stack = createStackNavigator();
 
 const App = ({ navigation }) => {
-  // useEffect(async () => {
-  //   const getStorage = await AsyncStorage.getItem("e-photocopier_auth_data");
-  //   if (getStorage) {
-  //     const obj = JSON.parse(getStorage);
-  //     if (obj.role == "user") {
-  //       navigation.navigate("Home");
-  //     }
-  //     if (obj.role == "admin") {
-  //       navigation.navigate("Admin Home");
-  //     }
-  //   }
-  // }, []);
+  useEffect(() => {
+    var firebaseConfig = {
+      apiKey: "AIzaSyDIWaM09fJjY0hn0kXBhI-Ds-k9IUv2SyE",
+      authDomain: "e-photocopier-d4555.firebaseapp.com",
+      projectId: "e-photocopier-d4555",
+      storageBucket: "e-photocopier-d4555.appspot.com",
+      messagingSenderId: "775987527894",
+      appId: "1:775987527894:web:bad64589e8a70da5890977",
+      measurementId: "G-ZZP2W5EWHZ",
+    };
+    firebase.initializeApp(firebaseConfig);
+    // if (firebase.app.length === 0) {
+    //   firebase.initializeApp(firebaseConfig);
+    // }
+  }, []);
   return (
     <Provider store={store}>
       <ToastProvider>
