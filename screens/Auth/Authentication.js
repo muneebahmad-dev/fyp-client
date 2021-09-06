@@ -17,7 +17,7 @@ import logo from "../../assets/photo-white.png";
 import jwtDecode from "jwt-decode";
 import { useToast } from "react-native-toast-notifications";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import firebase from "firebase/app";
+import firebase from "firebase";
 import "firebase/firestore";
 
 export const LoginScreen = ({ navigation }) => {
