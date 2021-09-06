@@ -17,6 +17,7 @@ import CompletedOrdersDetail from "./screens/Admin/Orders/CompletedOrdersDetail"
 import VerifyUser from "./screens/Auth/VerifyOTP";
 
 import firebase from "firebase/app";
+import PaymentCheckout from "./screens/User/Home/paymentCheckout";
 
 const Stack = createStackNavigator();
 
@@ -164,6 +165,19 @@ const App = ({ navigation }) => {
             <Stack.Screen
               name="Verify OTP"
               component={VerifyUser}
+              options={{
+                headerStyle: {
+                  backgroundColor: "#2291FF",
+                },
+                headerTitleStyle: {
+                  color: "white",
+                },
+                headerTintColor: "#ffffff",
+              }}
+            />
+            <Stack.Screen
+              name="Payment Checkout"
+              component={PaymentCheckout}
               options={{
                 headerStyle: {
                   backgroundColor: "#2291FF",

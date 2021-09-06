@@ -14,7 +14,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { RadioButton } from "react-native-paper";
 import { useToast } from "react-native-toast-notifications";
-const HomeTab = (props) => {
+const HomeTab = ({ navigation }) => {
   const [documentType, setDocumentType] = useState("blackWhite");
   const [urgent, setUrgent] = useState("no");
   const [file, setFile] = useState("");
@@ -143,8 +143,11 @@ const HomeTab = (props) => {
       <TouchableOpacity style={styles.buttonDocs} onPress={pickDocument}>
         <Text style={styles.btn}> Upload File </Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={submitHandler}>
-        <Text style={styles.btn}>Submit</Text>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate("Payment Checkout")}
+      >
+        <Text style={styles.btn}>Payment Checout</Text>
       </TouchableOpacity>
       <ActivityIndicator color="#2291FF" size={"large"} animating={isLoading} />
     </View>
