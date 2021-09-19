@@ -7,7 +7,7 @@ const PaymentCheckout = (props) => {
   const [email, setEmail] = useState();
   const [cardDetails, setCardDetails] = useState();
   const { confirmPayment, loading } = useConfirmPayment();
-  const stripe = require("stripe-client")(
+  var stripe = require("stripe-client")(
     "pk_test_51JSIrsJjrHq2X63xPAZocPXOwO3f9AhBm98P9PmMcafYWsIamiZtEADfWUggNOxw57UHSxvGScLu4Pgi6EF7PGz400Jzohpu3N"
   );
 
@@ -30,7 +30,7 @@ const PaymentCheckout = (props) => {
     const exp_month = expiry.split("/")[0];
     const exp_year = expiry.split("/")[1];
 
-    const information = {
+    var information = {
       card: {
         number: cardDetails.values.number,
         exp_month: exp_month,
@@ -61,6 +61,7 @@ const PaymentCheckout = (props) => {
           token: token,
         });
         if (error) {
+          console.log(error, "error");
           alert(`Payment Confirmation Error ${error.message}`);
         } else if (paymentIntent) {
           alert("Payment Successful");

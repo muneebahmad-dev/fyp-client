@@ -15,6 +15,7 @@ import { ToastProvider } from "react-native-toast-notifications";
 import ChangePasswordScreen from "./screens/Auth/ChangePassword";
 import CompletedOrdersDetail from "./screens/Admin/Orders/CompletedOrdersDetail";
 import VerifyUser from "./screens/Auth/VerifyOTP";
+import { StripeProvider } from "@stripe/stripe-react-native";
 
 import firebase from "firebase/app";
 import PaymentCheckout from "./screens/User/Home/paymentCheckout";
@@ -40,156 +41,158 @@ const App = ({ navigation }) => {
   return (
     <Provider store={store}>
       <ToastProvider>
-        <NavigationContainer styles={styles.container}>
-          <Stack.Navigator tintColor={"white"}>
-            <Stack.Screen
-              name="Welcome"
-              component={WelcomeScreen}
-              options={{
-                headerStyle: {
-                  backgroundColor: "#2291FF",
-                },
-                headerTitleStyle: {
-                  color: "white",
-                },
-                headerTintColor: "#ffffff",
-              }}
-            />
-            <Stack.Screen
-              name="LogIn"
-              component={LoginScreen}
-              options={{
-                headerStyle: {
-                  backgroundColor: "#2291FF",
-                },
-                headerTitleStyle: {
-                  color: "white",
-                },
-                headerTintColor: "#ffffff",
-              }}
-            />
-            <Stack.Screen
-              name="Signup"
-              component={SignUpScreen}
-              options={{
-                headerStyle: {
-                  backgroundColor: "#2291FF",
-                },
-                headerTitleStyle: {
-                  color: "white",
-                },
-                headerTintColor: "#ffffff",
-              }}
-            />
-            <Stack.Screen
-              name="Forgot Password"
-              component={ForgotPasswordScreen}
-              options={{
-                headerStyle: {
-                  backgroundColor: "#2291FF",
-                },
-                headerTitleStyle: {
-                  color: "white",
-                },
-                headerTintColor: "#ffffff",
-              }}
-            />
-            <Stack.Screen
-              name="Home"
-              component={Dashboard}
-              options={{
-                headerStyle: {
-                  backgroundColor: "#2291FF",
-                },
-                headerTitleStyle: {
-                  color: "white",
-                },
-                headerLeft: () => null,
-                headerTintColor: "#ffffff",
-              }}
-            />
+        <StripeProvider publishableKey="pk_test_51JSIrsJjrHq2X63xPAZocPXOwO3f9AhBm98P9PmMcafYWsIamiZtEADfWUggNOxw57UHSxvGScLu4Pgi6EF7PGz400Jzohpu3N">
+          <NavigationContainer styles={styles.container}>
+            <Stack.Navigator tintColor={"white"}>
+              <Stack.Screen
+                name="Welcome"
+                component={WelcomeScreen}
+                options={{
+                  headerStyle: {
+                    backgroundColor: "#2291FF",
+                  },
+                  headerTitleStyle: {
+                    color: "white",
+                  },
+                  headerTintColor: "#ffffff",
+                }}
+              />
+              <Stack.Screen
+                name="LogIn"
+                component={LoginScreen}
+                options={{
+                  headerStyle: {
+                    backgroundColor: "#2291FF",
+                  },
+                  headerTitleStyle: {
+                    color: "white",
+                  },
+                  headerTintColor: "#ffffff",
+                }}
+              />
+              <Stack.Screen
+                name="Signup"
+                component={SignUpScreen}
+                options={{
+                  headerStyle: {
+                    backgroundColor: "#2291FF",
+                  },
+                  headerTitleStyle: {
+                    color: "white",
+                  },
+                  headerTintColor: "#ffffff",
+                }}
+              />
+              <Stack.Screen
+                name="Forgot Password"
+                component={ForgotPasswordScreen}
+                options={{
+                  headerStyle: {
+                    backgroundColor: "#2291FF",
+                  },
+                  headerTitleStyle: {
+                    color: "white",
+                  },
+                  headerTintColor: "#ffffff",
+                }}
+              />
+              <Stack.Screen
+                name="Home"
+                component={Dashboard}
+                options={{
+                  headerStyle: {
+                    backgroundColor: "#2291FF",
+                  },
+                  headerTitleStyle: {
+                    color: "white",
+                  },
+                  headerLeft: () => null,
+                  headerTintColor: "#ffffff",
+                }}
+              />
 
-            <Stack.Screen
-              name="Admin Home"
-              component={AdminDashboard}
-              options={{
-                headerStyle: {
-                  backgroundColor: "#2291FF",
-                },
-                headerTitleStyle: {
-                  color: "white",
-                },
-                headerLeft: () => null,
-                headerTintColor: "#ffffff",
-              }}
-            />
-            <Stack.Screen
-              name="Order Detail"
-              component={OrdersDetail}
-              options={{
-                headerStyle: {
-                  backgroundColor: "#2291FF",
-                },
-                headerTitleStyle: {
-                  color: "white",
-                },
-                headerTintColor: "#ffffff",
-              }}
-            />
-            <Stack.Screen
-              name="Orders Detail"
-              component={CompletedOrdersDetail}
-              options={{
-                headerStyle: {
-                  backgroundColor: "#2291FF",
-                },
-                headerTitleStyle: {
-                  color: "white",
-                },
-                headerTintColor: "#ffffff",
-              }}
-            />
-            <Stack.Screen
-              name="Change Password"
-              component={ChangePasswordScreen}
-              options={{
-                headerStyle: {
-                  backgroundColor: "#2291FF",
-                },
-                headerTitleStyle: {
-                  color: "white",
-                },
-                headerTintColor: "#ffffff",
-              }}
-            />
-            <Stack.Screen
-              name="Verify OTP"
-              component={VerifyUser}
-              options={{
-                headerStyle: {
-                  backgroundColor: "#2291FF",
-                },
-                headerTitleStyle: {
-                  color: "white",
-                },
-                headerTintColor: "#ffffff",
-              }}
-            />
-            <Stack.Screen
-              name="Payment Checkout"
-              component={PaymentCheckout}
-              options={{
-                headerStyle: {
-                  backgroundColor: "#2291FF",
-                },
-                headerTitleStyle: {
-                  color: "white",
-                },
-                headerTintColor: "#ffffff",
-              }}
-            />
-          </Stack.Navigator>
-        </NavigationContainer>
+              <Stack.Screen
+                name="Admin Home"
+                component={AdminDashboard}
+                options={{
+                  headerStyle: {
+                    backgroundColor: "#2291FF",
+                  },
+                  headerTitleStyle: {
+                    color: "white",
+                  },
+                  headerLeft: () => null,
+                  headerTintColor: "#ffffff",
+                }}
+              />
+              <Stack.Screen
+                name="Order Detail"
+                component={OrdersDetail}
+                options={{
+                  headerStyle: {
+                    backgroundColor: "#2291FF",
+                  },
+                  headerTitleStyle: {
+                    color: "white",
+                  },
+                  headerTintColor: "#ffffff",
+                }}
+              />
+              <Stack.Screen
+                name="Orders Detail"
+                component={CompletedOrdersDetail}
+                options={{
+                  headerStyle: {
+                    backgroundColor: "#2291FF",
+                  },
+                  headerTitleStyle: {
+                    color: "white",
+                  },
+                  headerTintColor: "#ffffff",
+                }}
+              />
+              <Stack.Screen
+                name="Change Password"
+                component={ChangePasswordScreen}
+                options={{
+                  headerStyle: {
+                    backgroundColor: "#2291FF",
+                  },
+                  headerTitleStyle: {
+                    color: "white",
+                  },
+                  headerTintColor: "#ffffff",
+                }}
+              />
+              <Stack.Screen
+                name="Verify OTP"
+                component={VerifyUser}
+                options={{
+                  headerStyle: {
+                    backgroundColor: "#2291FF",
+                  },
+                  headerTitleStyle: {
+                    color: "white",
+                  },
+                  headerTintColor: "#ffffff",
+                }}
+              />
+              <Stack.Screen
+                name="Payment Checkout"
+                component={PaymentCheckout}
+                options={{
+                  headerStyle: {
+                    backgroundColor: "#2291FF",
+                  },
+                  headerTitleStyle: {
+                    color: "white",
+                  },
+                  headerTintColor: "#ffffff",
+                }}
+              />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </StripeProvider>
       </ToastProvider>
     </Provider>
   );
