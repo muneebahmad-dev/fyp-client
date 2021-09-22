@@ -121,6 +121,10 @@ const OrdersTab = ({ navigation }) => {
                 >
                   <Text style={Styles.orderText} numberOfLines={1}>
                     {" "}
+                    Order ID: {item?.orderId}
+                  </Text>
+                  <Text style={Styles.orderText} numberOfLines={1}>
+                    {" "}
                     Order: {item.fileName}
                   </Text>
                   <Text style={Styles.orderText}>
@@ -161,10 +165,12 @@ const Styles = StyleSheet.create({
   flatlist: {
     backgroundColor: "#2291FF",
     marginTop: "4%",
+    borderRadius: 15,
   },
   orderDetail: {
-    flexDirection: "row",
+    flexDirection: "column",
     padding: 10,
+    height: 80,
   },
   orderText: {
     flex: 1,

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Alert, Linking, TouchableHighlight } from "react-native";
+import { Alert, Linking, ActivityIndicator } from "react-native";
 import { Image } from "react-native";
 import { SafeAreaView, View } from "react-native";
 import { TouchableOpacity } from "react-native";
@@ -11,7 +11,8 @@ import * as ImagePicker from "expo-image-picker";
 const ProfileTab = ({ navigation }) => {
   const [id, setId] = useState("");
   const [userData, setUserData] = useState("");
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -31,7 +32,7 @@ const ProfileTab = ({ navigation }) => {
 
   useEffect(() => {
     storage();
-  }, [id]);
+  }, [id, userData]);
 
   const logoutHandler = () => {
     Alert.alert("Hold On", "Are you sure you want to logout?", [
@@ -76,13 +77,15 @@ const ProfileTab = ({ navigation }) => {
     }
   };
 
-  const changeProfileImg = async () => {
+  const changeProfileImg = async (result) => {
+    setIsLoading(true);
     const formData = new FormData();
+    console.log(result, "image");
     // setIsLoading(true);
     formData.append("file", {
-      uri: image?.uri,
+      uri: result?.uri,
       type: "image/jpg",
-      name: image?.name,
+      name: result?.name || "profileImg",
     });
     formData.append("userId", id);
     try {
@@ -102,19 +105,15 @@ const ProfileTab = ({ navigation }) => {
     } catch (err) {
       console.log(err);
     }
-    console.log("hello", formData);
-    // setIsLoading(false);
+    setIsLoading(false);
   };
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       quality: 1,
     });
-
-    console.log("result", result);
-
-    setImage(result.uri);
-    // changeProfileImg();
+    if (result) changeProfileImg(result);
+    setImage(result);
   };
   // console.log(userData, "ss");
   return (
@@ -139,9 +138,14 @@ const ProfileTab = ({ navigation }) => {
             <TouchableOpacity onPress={() => pickImage()}>
               <Image
                 source={{
-                  uri: image || userData.image,
+                  uri: userData.image ? userData?.image : image?.uri,
                 }}
                 style={Styles.Image}
+              />
+              <ActivityIndicator
+                animating={isLoading}
+                color="#2291FF"
+                size={"large"}
               />
             </TouchableOpacity>
           </View>

@@ -30,7 +30,6 @@ const ForgotPasswordScreen = ({ navigation }) => {
         }
       );
       const responseJson = await response.json();
-      console.log(responseJson);
     } catch (err) {
       setError(err);
       console.log(err);

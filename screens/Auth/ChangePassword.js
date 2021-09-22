@@ -81,15 +81,6 @@ const ChangePasswordScreen = ({ navigation }) => {
 export default ChangePasswordScreen;
 
 const styles = StyleSheet.create({
-  input: {
-    height: 50,
-    width: 300,
-    borderRadius: 5,
-    color: "white",
-    borderBottomColor: "white",
-    borderBottomWidth: 1,
-    justifyContent: "center",
-  },
   container: {
     flex: 1,
     justifyContent: "center",
@@ -116,6 +107,15 @@ const styles = StyleSheet.create({
   },
   btnview: {
     marginTop: "20%",
+  },
+  input: {
+    height: 50,
+    width: 300,
+    borderRadius: 5,
+    color: "white",
+    borderBottomColor: "white",
+    borderBottomWidth: 1,
+    justifyContent: "center",
   },
   button: {
     alignItems: "center",

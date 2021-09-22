@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "e-photocopier",
-    "slug": "e-photocopier",
+    "name": "E-Photocopier",
+    "slug": "E-Photocopier",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/logo-ios.png",
+    "icon": "./assets/photo-blue.png",
     "splash": {
       "image": "./assets/photo-blue.png",
       "resizeMode": "contain",

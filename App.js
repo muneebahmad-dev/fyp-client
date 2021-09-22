@@ -17,27 +17,11 @@ import CompletedOrdersDetail from "./screens/Admin/Orders/CompletedOrdersDetail"
 import VerifyUser from "./screens/Auth/VerifyOTP";
 import { StripeProvider } from "@stripe/stripe-react-native";
 
-import firebase from "firebase/app";
 import PaymentCheckout from "./screens/User/Home/paymentCheckout";
 
 const Stack = createStackNavigator();
 
 const App = ({ navigation }) => {
-  useEffect(() => {
-    var firebaseConfig = {
-      apiKey: "AIzaSyDIWaM09fJjY0hn0kXBhI-Ds-k9IUv2SyE",
-      authDomain: "e-photocopier-d4555.firebaseapp.com",
-      projectId: "e-photocopier-d4555",
-      storageBucket: "e-photocopier-d4555.appspot.com",
-      messagingSenderId: "775987527894",
-      appId: "1:775987527894:web:bad64589e8a70da5890977",
-      measurementId: "G-ZZP2W5EWHZ",
-    };
-    firebase.initializeApp(firebaseConfig);
-    // if (firebase.app.length === 0) {
-    //   firebase.initializeApp(firebaseConfig);
-    // }
-  }, []);
   return (
     <Provider store={store}>
       <ToastProvider>

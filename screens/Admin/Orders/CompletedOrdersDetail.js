@@ -50,28 +50,25 @@ const CompletedOrdersDetail = ({ route }) => {
       </View>
       <View style={Styles.mainContent}>
         <Text style={{ fontSize: 15, color: "black" }}>
-          Tap on Order Name to Download the file
+          Tap on URL to Download the file
         </Text>
         <TouchableOpacity
           style={Styles.button}
           onPress={() => Linking.openURL(item.filePath)}
         >
-          <Text style={Styles.btn}> Order Name: {item.filePath}</Text>
+          <Text style={Styles.btn}> URL: {item.filePath}</Text>
         </TouchableOpacity>
-        <Text style={{ fontSize: 16, marginTop: "2%", fontWeight: "bold" }}>
-          File name: {item.fileName}{" "}
+        <Text style={Styles.heading}>File name: {item.fileName} </Text>
+        <Text style={Styles.heading}>Order Status: {item.status}</Text>
+        <Text style={Styles.heading}>
+          Order Placed Time and Date:{" "}
+          {item?.orderUpdatedTimeStamp || item?.orderCreatedTimeStamp}
         </Text>
-        <Text style={{ fontSize: 16, marginTop: "2%", fontWeight: "bold" }}>
-          Order Status: {item.status}
+        <Text style={Styles.heading}>
+          Order Instructions: {item?.instructions}
         </Text>
-        <Text style={{ fontSize: 16, marginTop: "2%", fontWeight: "bold" }}>
-          Order Placed Time and Date: {item.orderUpdatedTimeStamp}
-        </Text>
-        {item.status != "Pending" && (
-          <Text style={{ fontSize: 16, marginTop: "2%", fontWeight: "bold" }}>
-            Order Price: {item.price}
-          </Text>
-        )}
+        <Text style={Styles.heading}>Total Pages: {item?.pages}</Text>
+        <Text style={Styles.heading}>Total Price Paid: {item?.price}</Text>
       </View>
     </SafeAreaView>
   );
@@ -83,6 +80,7 @@ const Styles = StyleSheet.create({
     flexDirection: "column",
     marginTop: -69,
   },
+  heading: { fontSize: 16, marginTop: "2%", fontWeight: "bold" },
   input: {
     height: 50,
     width: 300,

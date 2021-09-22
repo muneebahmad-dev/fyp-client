@@ -1,4 +1,3 @@
-import Input from "antd-mobile/lib/input-item/Input";
 import React, { useEffect } from "react";
 import { StyleSheet, BackHandler, Alert } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
@@ -53,7 +52,7 @@ const Dashboard = ({ navigation }) => {
       }}
     >
       <Tab.Screen name="Home" component={HomeTab} />
-      <Tab.Screen name="Chat" component={ChatTab} />
+      {/* <Tab.Screen name="Chat" component={ChatTab} /> */}
       <Tab.Screen name="Orders" component={OrdersTab} />
       <Tab.Screen name="Profile" component={ProfileTab} />
     </Tab.Navigator>

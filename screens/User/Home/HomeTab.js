@@ -8,20 +8,24 @@ import {
   Text,
   View,
   TouchableOpacity,
+  Alert,
+  TextInput,
   ActivityIndicator,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { RadioButton } from "react-native-paper";
 import { useToast } from "react-native-toast-notifications";
+import PushNotifications from "../PushNotifications";
 const HomeTab = ({ navigation }) => {
   const [documentType, setDocumentType] = useState("blackWhite");
   const [urgent, setUrgent] = useState("no");
   const [file, setFile] = useState("");
   const [id, setId] = useState("");
+  const [instructions, setInstructions] = useState("");
+  const [pages, setPages] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const formData = new FormData();
   const toast = useToast();
 
   useEffect(() => {
@@ -39,40 +43,22 @@ const HomeTab = ({ navigation }) => {
     setId(obj._id);
   };
 
-  const submitHandler = async () => {
-    setIsLoading(true);
-    formData.append("file", {
-      uri: file.uri,
-      type: "image/jpg",
-      name: file.name,
-    });
-    formData.append("user", id);
-    formData.append("urgent", urgent);
-    formData.append("documentType", documentType);
-    try {
-      const response = await fetch(
-        "http://e-photocopier-server.herokuapp.com/api/user/form/fileupload",
-        {
-          method: "POST",
-          body: formData,
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-      const responseJson = await response.json();
-      console.log(responseJson);
-      if (responseJson._id) {
-        toast.show("Order placed Successfully!");
-      }
-      setFile(" ");
-      setDocumentType("blackWhite");
-      setUrgent("urgentNo");
-    } catch (err) {
-      console.log(err);
+  const paymentCheckout = () => {
+    if (!file || !documentType || !urgent || !pages) {
+      Alert.alert("Please enter Complete Order Details");
+      return;
+    } else {
+      navigation.navigate("Payment Checkout", {
+        file,
+        id,
+        urgent,
+        documentType,
+        pages,
+        instructions,
+      });
     }
-    setIsLoading(false);
   };
+
   return (
     <View style={styles.container}>
       <Text style={styles.header}>
@@ -134,7 +120,23 @@ const HomeTab = ({ navigation }) => {
         />
         <Text style={{ padding: 3, fontSize: 20 }}> No </Text>
       </View>
-
+      <TextInput
+        style={styles.input}
+        placeholder=" Any Instructions"
+        placeholderTextColor="#2291FF"
+        onChangeText={(e) => {
+          setInstructions(e);
+        }}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Enter Total Pages"
+        keyboardType={"numeric"}
+        placeholderTextColor="#2291FF"
+        onChangeText={(e) => {
+          setPages(e);
+        }}
+      />
       <Text style={styles.text}>
         <MaterialCommunityIcons name="file-upload" size={24} color="black" />{" "}
         Upload File
@@ -143,19 +145,29 @@ const HomeTab = ({ navigation }) => {
       <TouchableOpacity style={styles.buttonDocs} onPress={pickDocument}>
         <Text style={styles.btn}> Upload File </Text>
       </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate("Payment Checkout")}
-      >
+      <TouchableOpacity style={styles.button} onPress={paymentCheckout}>
         <Text style={styles.btn}>Payment Checout</Text>
       </TouchableOpacity>
       <ActivityIndicator color="#2291FF" size={"large"} animating={isLoading} />
+      {/* <PushNotifications /> */}
     </View>
   );
 };
 const styles = StyleSheet.create({
+  btnview: {
+    marginTop: "20%",
+  },
+  input: {
+    height: 50,
+    width: 300,
+    borderRadius: 5,
+    color: "black",
+    borderBottomColor: "#2291FF",
+    borderBottomWidth: 1,
+    justifyContent: "center",
+  },
   container: {
-    paddingTop: "8%",
+    // paddingTop: "8%",
     flex: 1,
     alignItems: "center",
     backgroundColor: "white",
@@ -163,10 +175,11 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 30,
     fontWeight: "bold",
+    marginTop: 10,
   },
   text: {
-    marginBottom: "10%",
-    marginTop: "10%",
+    marginBottom: 30,
+    marginTop: 30,
     fontSize: 20,
   },
   btn: {
@@ -190,7 +203,7 @@ const styles = StyleSheet.create({
   button: {
     alignItems: "center",
     backgroundColor: "#2291FF",
-    marginTop: "10%",
+    marginTop: 15,
     padding: 9,
     paddingLeft: 20,
     paddingRight: 20,

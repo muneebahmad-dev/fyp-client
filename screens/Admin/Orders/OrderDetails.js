@@ -44,7 +44,6 @@ const OrdersDetail = ({ route }) => {
         }
       );
       const responseJson = await response.json();
-      console.log(responseJson);
       toast.show("Order Updated Successfully!");
     } catch (err) {
       console.log(err);
@@ -82,12 +81,17 @@ const OrdersDetail = ({ route }) => {
         <Text style={{ fontSize: 17, marginTop: "2%" }}>
           Order Created Time: {item.orderCreatedTimeStamp}
         </Text>
+        <Text style={Styles.heading}>
+          Order Instructions: {item?.instructions}
+        </Text>
+        <Text style={Styles.heading}>Total Pages: {item?.pages}</Text>
+        <Text style={Styles.heading}>Total Price Paid: {item?.price}</Text>
         <View style={{ marginTop: "15%", marginLeft: "5%" }}>
           <Text style={{ fontSize: 22, fontWeight: "bold" }}>
             Placed the Order :
           </Text>
         </View>
-        <View style={{ marginTop: "2%", marginLeft: "8%" }}>
+        {/* <View style={{ marginTop: "2%", marginLeft: "8%" }}>
           <View style={Styles.input}>
             <TextInput
               style={Styles.input}
@@ -99,7 +103,7 @@ const OrdersDetail = ({ route }) => {
               }}
             />
           </View>
-        </View>
+        </View> */}
         <View
           style={{
             flexDirection: "row",

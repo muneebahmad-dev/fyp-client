@@ -35,11 +35,12 @@ const VerifyUser = ({ route, navigation }) => {
         }
       );
       const responseJson = await response.json();
-      toast.show("Account Created Successfully!");
-      navigation.navigate("LogIn");
+      if (responseJson) {
+        toast.show("Account Created Successfully!");
+        navigation.navigate("LogIn");
+      }
     } catch (err) {
-      setError(err);
-      console.log(err);
+      toast.show("Entered OTP is not correct!");
     }
     setIsLoading(false);
   };
@@ -59,7 +60,11 @@ const VerifyUser = ({ route, navigation }) => {
         />
         <Text>{error}</Text>
       </View>
-      <TouchableOpacity style={styles.button} onPress={verifyOtp}>
+      <TouchableOpacity
+        style={styles.button}
+        disabled={!otp}
+        onPress={verifyOtp}
+      >
         <Text style={styles.btn}> Verify OTP </Text>
       </TouchableOpacity>
       <ActivityIndicator animating={isLoading} size="large" color="white" />
