@@ -145,8 +145,8 @@ export const SignUpScreen = ({ navigation }) => {
         setError(responseJson);
       }
     } catch (err) {
-      setError(err);
-      console.error(err);
+      // setError(err);
+      // console.error(err);
     }
     setIsLoading(false);
   };

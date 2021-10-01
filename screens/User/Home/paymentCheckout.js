@@ -65,21 +65,21 @@ const PaymentCheckout = ({ route }) => {
   };
 
   const fetchPaymentIntentClientSecret = async () => {
-    const reqBody = { pages: route.params.pages, orderId: orderId };
+    submitHandler();
     const response = await fetch(
       "https://e-photocopier-server.herokuapp.com/api/user/form/orderPayment",
       {
         method: "POST",
-        body: reqBody,
+        body: JSON.stringify({ pages: route.params.pages, orderId: orderId }),
         headers: {
           "Content-Type": "application/json",
         },
       }
     );
     const { clientSecret, error } = await response.json();
+    console.log(clientSecret, error);
     return { clientSecret, error };
   };
-
   const handlePayPress = async () => {
     setIsLoading(true);
     const expiry = cardDetails.values.expiry;
@@ -120,7 +120,6 @@ const PaymentCheckout = ({ route }) => {
           console.log(error, "error");
           alert(`Payment Confirmation Error ${error.message}`);
         } else if (paymentIntent) {
-          submitHandler();
           toast.show("Payment Successful");
           console.log("Payment successful ", paymentIntent);
         }
@@ -150,7 +149,11 @@ const PaymentCheckout = ({ route }) => {
         placeholderColor={"darkgray"}
         onChange={(e) => setCardDetails(e)}
       />
-      <TouchableOpacity style={styles.button} onPress={handlePayPress}>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={handlePayPress}
+        disabled={isLoading}
+      >
         <Text style={styles.btn}> Pay </Text>
       </TouchableOpacity>
       <ActivityIndicator animating={isLoading} color="#2291FF" size={"large"} />
